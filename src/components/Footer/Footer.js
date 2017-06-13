@@ -8,9 +8,9 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Footer.css';
-import Link from '../Link';
 
 class Footer extends React.Component {
   render() {

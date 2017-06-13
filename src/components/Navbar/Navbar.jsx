@@ -8,10 +8,10 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navbar.css';
-import Link from '../Link';
 
 class Navbar extends React.Component {
   render() {
@@ -20,7 +20,7 @@ class Navbar extends React.Component {
         <div className={s.container}>
           <ul className={cx(s.nav, s.navbarRight)}>
             <li>
-              <Link to="/contact">Contacto</Link>
+              <Link to="/contact">No funciona</Link>
             </li>
             <li>
               <Link to="/about">Acerca de</Link>

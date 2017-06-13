@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "setup",
+  "main": "./setup.server.jsx",
+  "browser": "./setup.client.jsx"
+}

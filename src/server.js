@@ -15,12 +15,12 @@ import expressJwt, { UnauthorizedError as Jwt401Error } from 'express-jwt';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
-import App from './components/App';
 import Html from './components/Html';
-import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
-import errorPageStyle from './routes/error/ErrorPage.css';
+import ErrorPage from './components/ErrorPage';
+import errorPageStyle from './components/ErrorPage/ErrorPage.css';
 import createFetch from './createFetch';
-import router from './router';
+import setup from './setup';
+import routes from './routes';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
@@ -103,47 +103,29 @@ app.get('*', async (req, res, next) => {
         styles.forEach(style => css.add(style._getCss()));
       },
       fetch,
-      // You can access redux through react-redux connect
-      store,
-      storeSubscription: null,
     };
+    const html = ReactDOM.renderToString(setup(store, routes, context, req.url));
+    if (context.url) {
+      res.redirect(302, context.url);
+    } else {
+      const data = {};
+      data.children = html;
+      data.styles = [
+        { id: 'css', cssText: [...css].join('') },
+      ];
+      data.scripts = [
+        assets.vendor.js,
+        assets.client.js,
+      ];
+      data.app = {
+        apiUrl: config.api.clientUrl,
+        state: store.getState(),
+      };
 
-    const route = await router.resolve({
-      path: req.path,
-      query: req.query,
-      fetch,
-      store,
-    });
-
-    if (route.redirect) {
-      res.redirect(route.status || 302, route.redirect);
-      return;
+      res.status(200);
+      res.send(ReactDOM.renderToString(<Html {...data} />));
     }
-
-    const data = { ...route };
-    data.children = ReactDOM.renderToString(
-      <App context={context} store={store}>
-        {route.component}
-      </App>,
-    );
-    data.styles = [
-      { id: 'css', cssText: [...css].join('') },
-    ];
-    data.scripts = [
-      assets.vendor.js,
-      assets.client.js,
-    ];
-    if (assets[route.chunk]) {
-      data.scripts.push(assets[route.chunk].js);
-    }
-    data.app = {
-      apiUrl: config.api.clientUrl,
-      state: context.store.getState(),
-    };
-
-    const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
-    res.status(route.status || 200);
-    res.send(`<!doctype html>${html}`);
+    res.end();
   } catch (err) {
     next(err);
   }
@@ -164,7 +146,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
       description={err.message}
       styles={[{ id: 'css', cssText: errorPageStyle._getCss() }]} // eslint-disable-line no-underscore-dangle
     >
-      {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} />)}
+      {ReactDOM.renderToString(<ErrorPage error={err} />)}
     </Html>,
   );
   res.status(err.status || 500);
