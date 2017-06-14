@@ -20,7 +20,7 @@ class Navbar extends React.Component {
         <div className={s.container}>
           <ul className={cx(s.nav, s.navbarRight)}>
             <li>
-              <Link to="/contact">No funciona</Link>
+              <Link to="/users">Users</Link>
             </li>
             <li>
               <Link to="/about">Acerca de</Link>

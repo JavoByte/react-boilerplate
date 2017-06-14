@@ -18,7 +18,7 @@ class Home extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <h1>React.js News</h1>
+          <h1>React.js Newsss</h1>
           <Map />
         </div>
       </div>

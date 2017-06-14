@@ -15,8 +15,9 @@ import expressJwt, { UnauthorizedError as Jwt401Error } from 'express-jwt';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
+import { END } from 'redux-saga';
 import Html from './components/Html';
-import ErrorPage from './components/ErrorPage';
+import { ErrorPageWithoutStyle } from './components/ErrorPage';
 import errorPageStyle from './components/ErrorPage/ErrorPage.css';
 import createFetch from './createFetch';
 import setup from './setup';
@@ -104,28 +105,34 @@ app.get('*', async (req, res, next) => {
       },
       fetch,
     };
-    const html = ReactDOM.renderToString(setup(store, routes, context, req.url));
+    ReactDOM.renderToString(setup(store, routes, context, req.url));
     if (context.url) {
       res.redirect(302, context.url);
     } else {
-      const data = {};
-      data.children = html;
-      data.styles = [
-        { id: 'css', cssText: [...css].join('') },
-      ];
-      data.scripts = [
-        assets.vendor.js,
-        assets.client.js,
-      ];
-      data.app = {
-        apiUrl: config.api.clientUrl,
-        state: store.getState(),
-      };
+      const { rootSaga } = store;
+      store.dispatch(END);
+      rootSaga.done.then(() => {
+        const data = {};
+        const html = ReactDOM.renderToString(setup(store, routes, context, req.url));
+        data.children = html;
+        data.styles = [
+          { id: 'css', cssText: [...css].join('') },
+        ];
+        data.scripts = [
+          assets.vendor.js,
+          assets.client.js,
+        ];
+        data.app = {
+          apiUrl: config.api.url,
+          state: store.getState(),
+        };
+        console.log(store.getState());
 
-      res.status(200);
-      res.send(ReactDOM.renderToString(<Html {...data} />));
+        res.status(200);
+        res.send(ReactDOM.renderToString(<Html {...data} />));
+        res.end();
+      });
     }
-    res.end();
   } catch (err) {
     next(err);
   }
@@ -146,7 +153,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
       description={err.message}
       styles={[{ id: 'css', cssText: errorPageStyle._getCss() }]} // eslint-disable-line no-underscore-dangle
     >
-      {ReactDOM.renderToString(<ErrorPage error={err} />)}
+      {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} />)}
     </Html>,
   );
   res.status(err.status || 500);

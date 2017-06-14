@@ -30,6 +30,12 @@ module.exports = {
   },
 
   rules: {
+    'no-plusplus': [
+      'error',
+      {
+        'allowForLoopAfterthoughts': true
+      },
+    ],
     // `js` and `jsx` are common extensions
     // `mjs` is for `universal-router` only, for now
     'import/extensions': [

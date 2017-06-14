@@ -3,14 +3,8 @@ import {
   Route,
 } from 'react-router-dom';
 import Layout from '../components/Layout';
-
-function Home() {
-  return (
-    <div>
-      This is the home
-    </div>
-  );
-}
+import Home from '../components/Home';
+import users from './users';
 
 function About() {
   return (
@@ -24,6 +18,7 @@ const routes = (
   <Layout>
     <Route exact path="/" component={Home} />
     <Route path="/about" component={About} />
+    { users() }
   </Layout>
 );
 
