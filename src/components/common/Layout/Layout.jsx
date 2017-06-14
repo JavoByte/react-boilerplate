@@ -9,6 +9,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { connect } from 'react-redux';
@@ -32,6 +33,9 @@ class Layout extends React.Component {
   render() {
     return (
       <div>
+        <Helmet titleTemplate="%s | GreyTech Soluciones">
+          <title>Inicio</title>
+        </Helmet>
         <Navbar />
         {
           this.props.application.error ?

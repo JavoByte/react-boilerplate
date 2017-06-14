@@ -7,7 +7,7 @@ import createHelpers from './createHelpers';
 import createLogger from './logger';
 import sagas from '../sagas';
 
-export default function configureStore(initialState, helpersConfig) {
+export default function configureStore(initialState, helpersConfig = {}) {
   const helpers = createHelpers(helpersConfig);
   const sagaMiddleware = createSagaMiddleware();
   const middleware = [sagaMiddleware, thunk.withExtraArgument(helpers)];

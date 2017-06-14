@@ -10,7 +10,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createHistory from 'history/createBrowserHistory';
-import createFetch from './createFetch';
 import configureStore from './store/configureStore';
 import routes from './routes';
 import setup from './setup';
@@ -28,13 +27,10 @@ const context = {
     const removeCss = styles.map(x => x._insertCss());
     return () => { removeCss.forEach(f => f()); };
   },
-  // Universal HTTP client
-  fetch: createFetch({
-    baseUrl: window.App.apiUrl,
-  }),
 };
 const history = createHistory();
-const store = configureStore(window.App.state, { history });
+// eslint-disable-next-line no-underscore-dangle
+const store = configureStore(window.__PRELOADED_STATE__, { history });
 const container = document.getElementById('app');
 let appInstance;
 appInstance = ReactDOM.render(

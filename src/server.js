@@ -16,10 +16,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import { END } from 'redux-saga';
-import Html from './components/Html';
+import Helmet from 'react-helmet';
+import html from './html';
 import { ErrorPageWithoutStyle } from './components/main/FatalErrorPage';
 import errorPageStyle from './components/main/FatalErrorPage/ErrorPage.css';
-import createFetch from './createFetch';
 import setup from './setup';
 import routes from './routes';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
@@ -75,19 +75,11 @@ app.get('*', async (req, res, next) => {
   try {
     const css = new Set();
 
-    const fetch = createFetch({
-      baseUrl: config.api.serverUrl,
-      cookie: req.headers.cookie,
-    });
-
     const initialState = {
       user: req.user || null,
     };
 
-    const store = configureStore(initialState, {
-      fetch,
-      // I should not use `history` on server.. but how I do redirection? follow universal-router
-    });
+    const store = configureStore(initialState);
 
     store.dispatch(setRuntimeVariable({
       name: 'initialNow',
@@ -103,7 +95,6 @@ app.get('*', async (req, res, next) => {
         // eslint-disable-next-line no-underscore-dangle
         styles.forEach(style => css.add(style._getCss()));
       },
-      fetch,
     };
     ReactDOM.renderToString(setup(store, routes, context, req.url));
     if (context.url) {
@@ -112,22 +103,17 @@ app.get('*', async (req, res, next) => {
       const { rootSaga } = store;
       store.dispatch(END);
       rootSaga.done.then(() => {
-        const data = {};
-        const html = ReactDOM.renderToString(setup(store, routes, context, req.url));
-        data.children = html;
-        data.styles = [
+        const content = ReactDOM.renderToString(setup(store, routes, context, req.url));
+        const styles = [
           { id: 'css', cssText: [...css].join('') },
         ];
-        data.scripts = [
+        const scripts = [
           assets.vendor.js,
           assets.client.js,
         ];
-        data.app = {
-          apiUrl: config.api.url,
-          state: store.getState(),
-        };
+        const preloadedState = store.getState();
         res.status(200);
-        res.send(ReactDOM.renderToString(<Html {...data} />));
+        res.send(html(content, preloadedState, styles, scripts));
         res.end();
       });
     }
@@ -145,17 +131,19 @@ pe.skipPackage('express');
 
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   console.error(pe.render(err));
-  const html = ReactDOM.renderToStaticMarkup(
-    <Html
-      title="Internal Server Error"
-      description={err.message}
-      styles={[{ id: 'css', cssText: errorPageStyle._getCss() }]} // eslint-disable-line no-underscore-dangle
-    >
-      {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} />)}
-    </Html>,
+  const styles = [{ id: 'css', cssText: errorPageStyle._getCss() }]; // eslint-disable-line no-underscore-dangle
+  const content = (
+    <div>
+      <Helmet>
+        <title>Internal server error</title>
+        <meta name="description" content={err.message} />
+      </Helmet>
+
+      <ErrorPageWithoutStyle error={err} />
+    </div>
   );
   res.status(err.status || 500);
-  res.send(`<!doctype html>${html}`);
+  res.send(html(ReactDOM.renderToString(content), {}, styles));
 });
 
 //

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react';
+import Helmet from 'react-helmet';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './UsersIndex.css';
 import InlineLoader from '../../common/InlineLoader';
@@ -13,8 +14,7 @@ class UsersIndex extends React.Component {
     }
   }
 
-
-  render() {
+  renderContent() {
     const { all, loading } = this.props.users;
     if (loading) {
       return <InlineLoader />;
@@ -52,6 +52,18 @@ class UsersIndex extends React.Component {
       </div>
     );
   }
+
+  render() {
+    return (
+      <div>
+        <Helmet>
+          <title>Usuarios</title>
+        </Helmet>
+        {this.renderContent()}
+      </div>
+    );
+  }
+
 }
 
 export default withStyles(s)(UsersIndex);

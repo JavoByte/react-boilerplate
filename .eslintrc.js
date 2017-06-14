@@ -15,7 +15,6 @@ module.exports = {
   extends: [
     'airbnb',
     'plugin:css-modules/recommended',
-    'eslint-config-postcss',
   ],
 
   plugins: [
