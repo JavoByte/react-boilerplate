@@ -3,6 +3,7 @@ import {
   USERS_LOADED,
   API_ERROR,
 } from '../constants';
+import User from '../models/User';
 
 function users(state = {}, action) {
   switch (action.type) {
@@ -13,7 +14,7 @@ function users(state = {}, action) {
     case USERS_LOADED :
       return {
         loading: false,
-        all: action.users,
+        all: action.users.map(user => new User(user)),
       };
     case API_ERROR :
       return {
