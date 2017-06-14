@@ -1,10 +1,10 @@
 import React from 'react';
 import ConnectedRoute from './ConnectedRoute';
-import UsersContainer from '../components/Users/UsersContainer';
-import UsersIndex from '../components/Users/UsersIndex';
+import UsersContainer from '../components/users/UsersContainer';
+import UsersIndex from '../components/users/UsersIndex';
 
-export default () => (
+export default ({match}) => (
   <UsersContainer>
-    <ConnectedRoute path="/users" exact component={UsersIndex} />
+    <ConnectedRoute path={`${match.url}`} exact component={UsersIndex} />
   </UsersContainer>
 );

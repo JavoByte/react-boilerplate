@@ -3,7 +3,7 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './UsersIndex.css';
-import InlineLoader from '../../InlineLoader';
+import InlineLoader from '../../common/InlineLoader';
 
 class UsersIndex extends React.Component {
 

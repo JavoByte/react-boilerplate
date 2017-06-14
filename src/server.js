@@ -17,8 +17,8 @@ import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import { END } from 'redux-saga';
 import Html from './components/Html';
-import { ErrorPageWithoutStyle } from './components/ErrorPage';
-import errorPageStyle from './components/ErrorPage/ErrorPage.css';
+import { ErrorPageWithoutStyle } from './components/main/FatalErrorPage';
+import errorPageStyle from './components/main/FatalErrorPage/ErrorPage.css';
 import createFetch from './createFetch';
 import setup from './setup';
 import routes from './routes';
@@ -126,8 +126,6 @@ app.get('*', async (req, res, next) => {
           apiUrl: config.api.url,
           state: store.getState(),
         };
-        console.log(store.getState());
-
         res.status(200);
         res.send(ReactDOM.renderToString(<Html {...data} />));
         res.end();
