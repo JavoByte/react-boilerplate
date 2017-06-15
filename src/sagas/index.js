@@ -1,9 +1,11 @@
 import { END } from 'redux-saga';
 import { take, fork } from 'redux-saga/effects';
 import users from './users';
+import session from './session';
 
 const allSagas = [
   users,
+  session,
 ];
 
 function getTasks(action) {

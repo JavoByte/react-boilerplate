@@ -4,6 +4,7 @@ import application from './application';
 import user from './user';
 import users from './users';
 import runtime from './runtime';
+import session from './session';
 
 export default combineReducers({
   application,
@@ -11,4 +12,5 @@ export default combineReducers({
   users,
   runtime,
   router: routerReducer,
+  session,
 });

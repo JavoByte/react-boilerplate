@@ -10,8 +10,8 @@ export default class Error404 extends React.Component {
           <meta name="description" content="Page not found" />
         </Helmet>
 
-        Sorry. We couldn't find the page you were looking for :(
+        Sorry. We could not find the page you were looking for :(
       </div>
-    )
+    );
   }
 }
