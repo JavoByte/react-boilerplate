@@ -11,7 +11,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from './store/configureStore';
-import routes from './routes';
+import { configureAxios } from './http/configure';
 import setup from './setup';
 import { ErrorReporter, deepForceUpdate } from './devUtils';
 
@@ -28,13 +28,14 @@ const context = {
     return () => { removeCss.forEach(f => f()); };
   },
 };
+configureAxios();
 const history = createHistory();
 // eslint-disable-next-line no-underscore-dangle
 const store = configureStore(window.__PRELOADED_STATE__, { history });
 const container = document.getElementById('app');
 let appInstance;
 appInstance = ReactDOM.render(
-  setup(store, routes, context, history),
+  setup(store, context, history),
   container);
 
 // Handle errors that might happen after rendering

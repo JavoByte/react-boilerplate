@@ -13,6 +13,7 @@ import Helmet from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { connect } from 'react-redux';
+import { logout } from '../../../actions/session';
 import s from './Layout.css';
 import AppErrorMessage from '../AppErrorMessage';
 import Navbar from '../Navbar';
@@ -21,12 +22,19 @@ import Footer from '../Footer';
 function mapStateToProps(state) {
   return {
     application: state.application,
+    session: state.session,
   };
 }
 
 class Layout extends React.Component {
   static propTypes = {
     application: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    session: PropTypes.shape({
+      user: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+      }),
+    }).isRequired,
+    dispatch: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
   };
 
@@ -36,13 +44,13 @@ class Layout extends React.Component {
         <Helmet titleTemplate="%s | GreyTech Soluciones">
           <title>Inicio</title>
         </Helmet>
-        <Navbar />
+        <Navbar user={this.props.session.user} logout={() => this.props.dispatch(logout())} />
         {
           this.props.application.error ?
             <AppErrorMessage message={this.props.application.error} />
           : null
         }
-        {this.props.children}
+        { React.cloneElement(this.props.children, { user: this.props.session.user })}
         <Footer />
       </div>
     );

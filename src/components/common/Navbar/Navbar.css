@@ -22,24 +22,33 @@
 }
 
 .nav {
-  margin : 0;
+  margin: 0;
   float: left;
   list-style: none;
+
   > li {
-    float : left;
+    float: left;
     position: relative;
     display: block;
+
     > a {
       text-decoration: none;
-      padding : 15px;
+      padding: 15px;
       line-height: 20px;
-      display : block;
+      display: block;
+    }
+
+    > button {
+      background-color: transparent;
+      padding: 15px;
+      line-height: 20px;
+      display: block;
     }
   }
 }
 
 .navbar-right {
-  float : right;
+  float: right;
   margin-right: -15px;
 }
 

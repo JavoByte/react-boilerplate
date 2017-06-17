@@ -1,7 +1,7 @@
 export default {
   // API Gateway
   api: {
-    url: process.env.API_SERVER_URL || 'http://localhost:8000/api',
+    url: process.env.API_SERVER_URL || 'http://localhost:8000/api/',
     defaultErrorMessage: 'Ocurrió un error al conectar con el servidor',
   },
   // Web analytics

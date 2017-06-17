@@ -6,7 +6,7 @@ export default {
   port: process.env.PORT || 3000,
   // Authentication
   auth: {
-    jwt: { secret: process.env.JWT_SECRET || 'WqevT2rM6LJKBDMdXzVOs9M1GzXI6NMM' },
+    jwt: { secret: process.env.JWT_SECRET || 'LkzPmTDszorKWLoFxrXRpD7gk2rItWt3' },
 
     // https://developers.facebook.com/
     facebook: {

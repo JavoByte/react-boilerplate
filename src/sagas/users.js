@@ -1,15 +1,16 @@
 import { call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import {
+  API_PATHS,
   API_ERROR,
   USERS_LOAD,
   USERS_LOADED,
 } from '../constants';
-import config from '../config';
+
 
 function* getUsers() {
   try {
-    const response = yield call(() => axios.get(`${config.api.url}/users`));
+    const response = yield call(() => axios.get(API_PATHS.users));
     yield put({
       type: USERS_LOADED,
       users: response.data,

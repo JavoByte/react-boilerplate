@@ -8,13 +8,26 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navbar.css';
 
 class Navbar extends React.Component {
+  static propTypes = {
+    user: PropTypes.shape({
+      id: PropTypes.number,
+    }),
+    logout: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    user: null,
+  }
+
   render() {
+    const { user } = this.props;
     return (
       <div className={s.root} role="navigation">
         <div className={s.container}>
@@ -23,7 +36,12 @@ class Navbar extends React.Component {
               <Link to="/users">Users</Link>
             </li>
             <li>
-              <Link to="/login">Login</Link>
+              {
+                user ?
+                  <button onClick={this.props.logout}>Logout</button>
+                :
+                  <Link to="/login">Login</Link>
+              }
             </li>
           </ul>
         </div>

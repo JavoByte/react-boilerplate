@@ -17,11 +17,12 @@ import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import { END } from 'redux-saga';
 import Helmet from 'react-helmet';
+import { setServerRedirect } from './actions/application';
+import { configureAxios, setAxiosCookie } from './http/configure';
 import html from './html';
 import { ErrorPageWithoutStyle } from './components/main/FatalErrorPage';
 import errorPageStyle from './components/main/FatalErrorPage/ErrorPage.css';
 import setup from './setup';
-import routes from './routes';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
@@ -50,15 +51,20 @@ app.use(bodyParser.json());
 app.use(expressJwt({
   secret: config.auth.jwt.secret,
   credentialsRequired: false,
+  requestProperty: 'jwtData',
   getToken: req => req.cookies.id_token,
 }));
 // Error handler for express-jwt
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   if (err instanceof Jwt401Error) {
     console.error('[express-jwt-error]', req.cookies.id_token);
+    console.error('[express-jwt-error]', err);
     // `clearCookie`, otherwise user can't use web-app until cookie expires
     res.clearCookie('id_token');
+    // Continue normally. Just the jwtData key in the response won't be set
+    next();
   } else {
+    // Error raised by something else. Throw it to be better handled
     next(err);
   }
 });
@@ -74,10 +80,17 @@ if (__DEV__) {
 app.get('*', async (req, res, next) => {
   try {
     const css = new Set();
-
+    const { jwtData } = req;
     const initialState = {
-      user: req.user || null,
+      session: {
+        user: jwtData ? jwtData.user : null,
+      },
     };
+
+    configureAxios();
+    if (jwtData && jwtData.user) {
+      setAxiosCookie(req.headers.cookie);
+    }
 
     const store = configureStore(initialState);
 
@@ -96,14 +109,31 @@ app.get('*', async (req, res, next) => {
         styles.forEach(style => css.add(style._getCss()));
       },
     };
-    ReactDOM.renderToString(setup(store, routes, context, req.url));
-    if (context.url) {
-      res.redirect(302, context.url);
+    ReactDOM.renderToString(setup(store, context, req.url));
+    if (context.history.context.url) {
+      const { from } = context.history.context.location;
+      if (from) {
+        res.cookie('referrer', JSON.stringify(from));
+      }
+      res.redirect(302, context.history.context.url);
     } else {
+      const { referrer } = req.cookies;
+      if (referrer) {
+        // There's a route to redirect after this path.
+        // This request most likely will render the login path
+
+        res.clearCookie('referrer');
+        try {
+          const from = JSON.parse(referrer);
+          store.dispatch(setServerRedirect(from));
+        } catch (error) {
+          console.error(error);
+        }
+      }
       const { rootSaga } = store;
       store.dispatch(END);
       rootSaga.done.then(() => {
-        const content = ReactDOM.renderToString(setup(store, routes, context, req.url));
+        const content = ReactDOM.renderToString(setup(store, context, req.url));
         const styles = [
           { id: 'css', cssText: [...css].join('') },
         ];

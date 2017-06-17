@@ -18,8 +18,8 @@ function users(state = {}, action) {
       };
     case API_ERROR :
       return {
+        ...state,
         loading: false,
-        all: [],
       };
     default :
       return state;

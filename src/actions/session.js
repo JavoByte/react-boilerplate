@@ -3,7 +3,7 @@
 import {
   SESSION_ATTEMPT,
   SESSION_LOGGED_IN,
-  SESSION_LOGGED_OUT,
+  SESSION_LOGOUT,
 } from '../constants';
 
 export function attemptLogin(credentials) {
@@ -20,8 +20,8 @@ export function loggedIn(user) {
   };
 }
 
-export function loggedOut() {
+export function logout() {
   return {
-    type: SESSION_LOGGED_OUT,
+    type: SESSION_LOGOUT,
   };
 }
