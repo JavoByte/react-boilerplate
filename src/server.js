@@ -17,7 +17,7 @@ import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import { END } from 'redux-saga';
 import Helmet from 'react-helmet';
-import { setServerRedirect } from './actions/application';
+import { setServerRedirect, sendApplicationMessage } from './actions/application';
 import { configureAxios, setAxiosCookie } from './http/configure';
 import html from './html';
 import { ErrorPageWithoutStyle } from './components/main/FatalErrorPage';
@@ -126,6 +126,9 @@ app.get('*', async (req, res, next) => {
         try {
           const from = JSON.parse(referrer);
           store.dispatch(setServerRedirect(from));
+          if (from.message) {
+            store.dispatch(sendApplicationMessage(from.message, from.messageType, 'redirect'));
+          }
         } catch (error) {
           console.error(error);
         }

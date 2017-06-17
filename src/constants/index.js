@@ -13,6 +13,7 @@ export const API_ERROR = 'API_ERROR';
  * Application actions
 **/
 export const APPLICATION_SEND_MESSAGE = 'APPLICATION_SEND_MESSAGE';
+export const APPLICATION_CLEAR_MESSAGE = 'APPLICATION_CLEAR_MESSAGE';
 
 // This action must be used only server side.
 // Used when a redirect must be done (most likely after login)

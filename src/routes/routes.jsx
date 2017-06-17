@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import AuthRoute from './AuthRoute';
 import OnlyGuestRoute from './OnlyGuestRoute';
+import PrivateRoute from './PrivateRoute';
 import Home from '../components/main/Home';
 import About from '../components/main/About';
 import Contact from '../components/main/Contact';
@@ -19,7 +20,7 @@ const routes = ({ user }) => (
     <Route exact path="/" component={Home} />
     <Route path="/contact" component={Contact} />
     <Route path="/about" component={About} />
-    <Route path="/privacy" component={Privacy} />
+    <PrivateRoute path="/privacy" component={Privacy} user={user} validator={usr => (usr ? usr.email === 'email@email.com' : false)} message="Unauthorized" messageType="warning" messageErrorStatus={403} />
     <OnlyGuestRoute path="/login" component={Login} user={user} />
     <AuthRoute path="/users" component={Users} user={user} />
     <Route component={Error404} />

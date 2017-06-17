@@ -27,23 +27,32 @@ class ComponentRender extends React.Component {
         hash: PropTypes.string,
         message: PropTypes.string,
         messageType: PropTypes.string,
+        messageErrorStatus: PropTypes.number,
       }),
     }),
     redirectTo: PropTypes.string,
+    message: PropTypes.string,
+    messageType: PropTypes.string,
   };
 
   static defaultProps = {
     user: null,
-    serverRedirect: null,
+    serverRedirect: {},
     redirectTo: '/',
+    messageType: 'info',
+    message: null,
+    messageErrorStatus: 302,
   };
 
   componentWillMount() {
-    const { from } = (this.props.location.state || {});
+    let { from } = (this.props.location.state || {});
+    if (!from) {
+      from = this.props.serverRedirect.from;
+    }
     if (from) {
       const { message, messageType } = from;
       if (message) {
-        this.props.sendApplicationMessage(message, messageType);
+        this.props.sendApplicationMessage(message, messageType, 'redirect');
       }
     }
   }
@@ -65,7 +74,7 @@ class ComponentRender extends React.Component {
             pathname: '/login',
             state: {
               from: {
-                ...otherProps.location,
+                ...this.props.location,
                 message: 'please, log in',
               },
             },
@@ -82,27 +91,43 @@ class ComponentRender extends React.Component {
     // if that's the case, we will redirect back there
     // if not, redirect to "redirectTo" property (/ is default)
 
-    const { from } = (otherProps.location.state || {});
+    const { from } = (this.props.location.state || {});
 
     // There's an special case. The redirect could be done from the server
     // so our referrer is not in the default history object. Fortunately, we saved it
     // in our redux state and connected to that specific property
 
-    const { serverRedirect } = otherProps;
+    const { serverRedirect, message, messageType, messageErrorStatus } = this.props;
     let redirectTo;
-    if (from) {
+    if (messageErrorStatus === 403) {
+      // We will redirect and messageErrorStatus is unauthorized
+      // This path is unauthorized. Redirect to root path to avoid infinite redirects
+      // This won't work if root path isn't authorized either.
+      redirectTo = '/';
+    } else if (from) {
       redirectTo = from.pathname;
     } else if (serverRedirect && serverRedirect.from) {
-      console.log('redirecting to server referrer');
       redirectTo = serverRedirect.from.pathname;
     } else {
-      redirectTo = otherProps.redirectTo;
+      redirectTo = this.props.redirectTo;
+    }
+
+    if (message) {
+      // Don't dispatch in the `render` method. Dispatch outside this scope.
+      setTimeout(() => this.props.sendApplicationMessage(message, messageType, 'redirect'));
     }
     return (
       <Redirect
         to={{
           pathname: redirectTo,
-          state: { from: otherProps.location },
+          state: {
+            from: {
+              ...this.props.location,
+              message,
+              messageType,
+              messageErrorStatus,
+            },
+          },
         }}
       />
     );

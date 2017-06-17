@@ -14,7 +14,9 @@ import { withRouter } from 'react-router-dom';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { connect } from 'react-redux';
 import { logout } from '../../../actions/session';
+import { clearApplicationMessage } from '../../../actions/application';
 import s from './Layout.css';
+import ApplicationMessage from '../ApplicationMessage';
 import AppErrorMessage from '../AppErrorMessage';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
@@ -38,6 +40,15 @@ class Layout extends React.Component {
     children: PropTypes.node.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.clearMessage = this.clearMessage.bind(this);
+  }
+
+  clearMessage(messageId) {
+    this.props.dispatch(clearApplicationMessage(messageId));
+  }
+
   render() {
     return (
       <div>
@@ -49,6 +60,14 @@ class Layout extends React.Component {
           this.props.application.error ?
             <AppErrorMessage message={this.props.application.error} />
           : null
+        }
+        {
+          this.props.application.messages.map(message =>
+            <ApplicationMessage
+              key={message.identifier}
+              message={message}
+              clearMessage={() => this.clearMessage(message.identifier)}
+            />)
         }
         { React.cloneElement(this.props.children, { user: this.props.session.user })}
         <Footer />
