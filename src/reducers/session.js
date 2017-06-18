@@ -2,6 +2,7 @@ import {
   SESSION_LOGGED_IN,
   SESSION_LOGGED_OUT,
   SESSION_ATTEMPT_ERROR,
+  REGISTRATION_SUCCESS,
 } from '../constants';
 
 function session(state = {
@@ -23,6 +24,10 @@ function session(state = {
       return {
         ...state,
         user: null,
+      };
+    case REGISTRATION_SUCCESS:
+      return {
+        user: action.user,
       };
     default:
       return state;
