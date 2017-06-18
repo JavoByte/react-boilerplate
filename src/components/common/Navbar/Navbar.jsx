@@ -35,6 +35,15 @@ class Navbar extends React.Component {
             <li>
               <Link to="/users">Users</Link>
             </li>
+            {
+              user ?
+                null
+              : (
+                <li>
+                  <Link to="/register">Register</Link>
+                </li>
+              )
+            }
             <li>
               {
                 user ?

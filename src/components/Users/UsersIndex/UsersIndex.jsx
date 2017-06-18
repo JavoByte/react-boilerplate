@@ -1,15 +1,25 @@
-/* eslint-disable react/prop-types */
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './UsersIndex.css';
 import InlineLoader from '../../common/InlineLoader';
 
+const TIME_TO_RELOAD = 1000 * 60 * 10; // reload after 10 minutes
+
 class UsersIndex extends React.Component {
 
+  static propTypes = {
+    users: PropTypes.shape({
+      all: PropTypes.array,
+      loading: PropTypes.bool.isRequired,
+      loaded_at: PropTypes.number.isRequired,
+    }).isRequired,
+    getUsers: PropTypes.func.isRequired,
+  };
+
   componentWillMount() {
-    if (!this.props.users.all) {
+    if (!this.props.users.loaded_at || this.props.users.loaded_at < TIME_TO_RELOAD) {
       this.props.getUsers();
     }
   }
