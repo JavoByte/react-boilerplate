@@ -1,0 +1,118 @@
+@import '../../../styles/variables.css';
+
+@custom-selector :--navlink a, button;
+
+.root {
+  margin-bottom: 20px;
+  background: black;
+  min-height: 50px;
+  position: relative;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.nav {
+  margin: 0;
+  float: left;
+  list-style: none;
+
+  > li {
+    float: left;
+    position: relative;
+    display: block;
+    margin: 0;
+
+    > button {
+      font-size: inherit;
+      font-weight: inherit;
+      color: var(--brand-primary);
+      border: none;
+      background-color: transparent;
+      text-transform: none;
+      letter-spacing: inherit;
+      font-family: inherit;
+      border-radius: 0;
+      height: auto;
+    }
+
+    > :--navlink {
+      color: white;
+      text-decoration: none;
+      padding: 15px;
+      line-height: 20px;
+      display: block;
+      margin: 0;
+
+      &:hover {
+        background-color: gray;
+        color: white;
+      }
+    }
+  }
+}
+
+.navbar-brand {
+  float: left;
+  position: relative;
+  margin: 0;
+  height: 50px;
+
+  a {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    white-space: nowrap;
+    margin: 0;
+    line-height: 20px;
+    display: block;
+
+    img {
+      max-height: 30px;
+      max-width: 30px;
+      vertical-align: middle;
+      margin-top: -5px;
+    }
+  }
+}
+
+.navbar-right {
+  float: right;
+  margin-right: -15px;
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.125em; /* ~18px */
+}
+
+.link,
+.link:active,
+.link:visited {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.link:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.highlight {
+  margin-right: 8px;
+  margin-left: 8px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.15);
+  color: #fff;
+}
+
+.highlight:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.spacer {
+  color: rgba(255, 255, 255, 0.3);
+}

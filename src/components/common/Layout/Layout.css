@@ -1,0 +1,149 @@
+@import '../../../styles/variables.css';
+
+@global-import 'milligram/dist/milligram.min.css';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+:global(#app) {
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 50px;
+
+  footer {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+}
+
+a {
+  color: var(--brand-primary);
+}
+
+input[type='email'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='url'],
+textarea,
+select {
+  &:focus {
+    border-color: var(--brand-primary);
+  }
+}
+
+:global(.button),
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+
+  &:focus,
+  &:hover {
+    background-color: var(--brand-secondary);
+    border-color: var(--brand-secondary);
+  }
+
+  & [disabled] {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+  }
+
+  &:global(.button-outline) {
+    color: var(--brand-primary);
+
+    &:focus,
+    &:hover {
+      border-color: var(--brand-secondary);
+      color: var(--brand-secondary);
+    }
+
+    &[disabled] {
+      &:focus,
+      &:hover {
+        color: var(--brand-primary);
+      }
+    }
+  }
+
+  &:global(.button-clear) {
+    color: var(--brand-primary);
+
+    &:focus,
+    &:hover {
+      color: var(--brand-secondary);
+    }
+
+    &[disabled] {
+      &:focus,
+      &:hover {
+        color: var(--brand-primary);
+      }
+    }
+  }
+}
+
+:global(.container) {
+  padding: 0 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (--xs-viewport) {
+  :global(.container) {
+    max-width: 100%;
+  }
+}
+
+@media (--sm-viewport) {
+  :global(.container) {
+    max-width: calc(0.9 * var(--screen-sm-min));
+  }
+}
+
+@media (--md-viewport) {
+  :global(.container) {
+    max-width: calc(0.85 * var(--screen-md-min));
+  }
+}
+
+@media (--lg-viewport) {
+  :global(.container) {
+    max-width: calc(0.8 * var(--screen-lg-min));
+  }
+}
+
+:global(.form-container) {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+:global(.text-justify) {
+  text-align: justify;
+}
+
+:global(.text-left) {
+  text-align: left;
+}
+
+:global(.text-right) {
+  text-align: right;
+}
+
+:global(.text-center) {
+  text-align: center;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Layout",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Layout.jsx",
+  "description": "Component representing all the application Layout. This component will be present in ALL the application routes. Will include the footer, navbar and menus required for navigation"
+}

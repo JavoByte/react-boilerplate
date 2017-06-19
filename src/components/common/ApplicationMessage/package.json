@@ -1,0 +1,6 @@
+{
+  "name": "ApplicationMessage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ApplicationMessage.jsx"
+}
