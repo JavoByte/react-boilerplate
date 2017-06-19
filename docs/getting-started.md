@@ -90,7 +90,6 @@ Node.js server (`node build/server.js`) and [Browsersync](https://browsersync.io
 with [HMR](https://webpack.github.io/docs/hot-module-replacement) on top of it.
 
 > [http://localhost:3000/](http://localhost:3000/) — Node.js server (`build/server.js`)<br>
-> [http://localhost:3000/graphql](http://localhost:3000/graphql) — GraphQL server and IDE<br>
 > [http://localhost:3001/](http://localhost:3001/) — BrowserSync proxy with HMR, React Hot Transform<br>
 > [http://localhost:3002/](http://localhost:3002/) — BrowserSync control panel (UI)
 
@@ -127,6 +126,7 @@ $ yarn run build -- --release
 ```
 
 or, for a production docker build:
+
 
 ```shell
 $ yarn run build -- --release --docker
@@ -167,3 +167,20 @@ to [Azure Web Apps](https://azure.microsoft.com/en-us/services/app-service/web/)
 or [Heroku](https://www.heroku.com/) this way. Both will execute `yarn install --production`
 upon receiving new files from you. Note, you should only deploy the contents
 of the `/build` folder to a remote server.
+
+
+### NOTES
+This is a fork from [React starter kit](https://github.com/kriasoft/react-starter-kit) Check that awesome project too.
+
+### TODOS
+
+- [*] Document routing
+- [*] Document sagas
+- [ ] Document forms and validation
+- [ ] Document in app messages
+- [ ] Document server side redirects
+- [ ] Refactor of forms and reuse code. Perhaps with a higher-order component
+- [ ] Check if docs of RSK still works with this fork
+- [ ] Document basic styling (milligram)
+- [ ] Test production build
+- [ ] Implement flow
