@@ -17,9 +17,22 @@ Before you start, take a moment to see how the project structure looks like:
 ├── /node_modules/              # 3rd-party libraries and utilities
 ├── /public/                    # Static files which are copied into the /build/public folder
 ├── /src/                       # The source code of the application
-│   ├── /components/            # React components
-│   ├── /data/                  # GraphQL server schema and data models
-│   ├── /routes/                # Page/screen components along with the routing information
+│   ├── /actions                # Redux actions
+│   ├── /components             # React components
+│       ├── /common             # Components used across routes
+│       ├── /main               # Components representing simple routes under root path
+│       ├── ...                 # Folders containing components for complex routes
+│       ├── App.js              # Application main component
+│   ├── /config/                # Application configuration files
+│   ├── /constants/             # Constants
+│   ├── /http/                  # HTTP Configuration
+│   ├── /models/                # Javascript classes for models
+│   ├── /reducers/              # Redux reducers
+│   ├── /routes/                # Components to render isomorphic routes with React Router v4
+│   ├── /sagas/                 # Redux sagas
+│   ├── /setup/                 # Files for bootstrap the application
+│   ├── /store/                 # Files to setup the redux store
+│   ├── /styles/                # Application styling. Contains a single file containing vars
 │   ├── /client.js              # Client-side startup script
 │   ├── /config.js              # Global application settings
 │   ├── /server.js              # Server-side startup script
@@ -154,16 +167,3 @@ to [Azure Web Apps](https://azure.microsoft.com/en-us/services/app-service/web/)
 or [Heroku](https://www.heroku.com/) this way. Both will execute `yarn install --production`
 upon receiving new files from you. Note, you should only deploy the contents
 of the `/build` folder to a remote server.
-
-### How to Update
-
-If you need to keep your project up to date with the recent changes made to RSK,
-you can always fetch and merge them from [this repo](https://github.com/kriasoft/react-starter-kit)
-back into your own project by running:
-
-```shell
-$ git checkout master
-$ git fetch react-starter-kit
-$ git merge react-starter-kit/master
-$ yarn install
-```

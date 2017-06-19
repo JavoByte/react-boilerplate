@@ -1,60 +1,96 @@
 ## Data Fetching
 
-At a bare minimum you may want to use [HTML5 Fetch API][fetch] as an HTTP client utility for
-making Ajax request to the [data API server][nodeapi]. This API is supported natively in all the
-major browsers except for IE (note, that Edge browser does support Fetch).
+Surely, you'll need to get data from an HTTP server. This boilerplate is preconfigured to
+work with (axios)[axios] which works out of the box in both server and client side.
 
-**React Starter Kit** is pre-configured with [`whatwg-fetch`][wfetch] polyfill for the browser
-environment and [`node-fetch`][nfetch] module for the server-side environment (see
-[`src/createFetch.js`](../src/createFetch.js)), allowing you to use the `fetch(url, options)`
-method universally in both the client-side and server-side code bases.
+In the `config.js` file, you'll find an `API_URL` which will be configured as `baseURL` for
+axios.
 
-In order to avoid the the amount of boilerplate code needed when using the raw `fetch(..)`
-function, a simple wrapper was created that provides a base URL of the data API server, credentials
-(cookies), CORS etc. For example, in a browser environment the base URL of the data API server
-might be an empty string, so when you make an Ajax request to the `/graphql` endpoint it's being
-sent to the same origin, and when the same code is executed on the server, during server-side
-rendering, it fetches data from the `http://api:8080/graphql` endpoint (`node-fetch` doesn't
-support relative URLs for obvious reasons).
+By default, axios will work with the `withCrentials` option activated. This is because this
+project is structured to work with sessions stored via cookies.
 
-Because of these subtle differences of how the `fetch` method works internally, it makes total
-sense to pass it as a `context` variable to your React application, so it can be used from either
-routing level or from inside your React components as follows:
+## Guideline
 
-#### Route Example
+Your React components should not make http calls directly, i.e., they shouldn't even import
+the axios library. Instead, we'll use redux to handle this requests.
 
-```js
-{
-  path: '/posts/:id',
-  async action({ params, fetch }) {
-    const resp = await fetch(`/api/posts/${params.id}`, { method: 'GET' });
-    const data = await resp.json();
-    return { title: data.title, component: <Post {...data} /> };
+Surely you are familiar with thunk, but our approach is slightly different. Our approach is
+to keep action creators as pure functions which returns always an object. For this purpose,
+we use (Redux sagas)[sagas]. Check out how `sagas` work.
+
+You should create a new `saga` in the `sagas` folder and register it in the main saga (`sagas/index.js`)
+
+So, you're saga would basically look like this:
+
+```javascript
+import { call, put } from 'redux-saga/effects';
+import axios from 'axios';
+
+function* myHttpGet(action) {
+  try {
+    const response = yield call(() => axios.get('url'));
+    // Success response
+    yield put({
+      type: 'DATA_FETCH_SUCCESS',
+      data: response.data,
+    });
+  } catch (error) {
+    yield put({
+      type: 'DATA_FETCH_ERROR',
+      error,
+    });
+  }
+}
+
+function getSaga(action) {
+  switch (action.type) {
+    case 'DATA_FETCH_START':
+      return myHttpGet;
+    default:
+      return null;
+  }
+}
+
+export default getSaga;
+
+```
+
+The `getSaga` function will receive the `action` dispatched to the redux state and return
+the `saga` to execute if `action.type` matches with `'DATA_FETCH_START'`.
+
+When the http call is succesful, the `'DATA_FETCH_SUCCESS'` action will be dispatched. When an error arises,
+`'DATA_FETCH_ERROR'` will be dispatched.
+
+With this approach, your reducer should be simplified to something like this:
+
+```javascript
+export default function myAwesomeReducer(state = {
+  loading: false,
+  data: null
+}, action) {
+  switch (action.type) {
+    case 'DATA_FETCH_START':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'DATA_FETCH_SUCCESS':
+      return {
+        ...state,
+        data: action.data,
+        loading: false,
+      };
+    case 'DATA_FETCH_START':
+      return {
+        ...state,
+        error: action.error
+        loading: false,
+      };
+    }
   }
 }
 ```
 
-#### React Component
-
-```js
-class Post extends React.Component {
-  static contextTypes = { fetch: PropTypes.func.isRequired };
-  handleDelete = (event) => {
-    event.preventDefault();
-    const id = event.target.dataset['id'];
-    this.context.fetch(`/api/posts/${id}`, { method: 'DELETE' }).then(...);
-  };
-  render() { ... }
-}
-```
-
-#### Related articles
-
-* [That's so fetch!](https://jakearchibald.com/2015/thats-so-fetch/) by [Jake Archibald](https://twitter.com/jaffathecake)
-
-
-[fetch]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-[wfetch]: https://github.com/github/fetchno
-[nfetch]: https://github.com/bitinn/node-fetch
-[nodeapi]: https://github.com/kriasoft/nodejs-api-starter
-
+[axios]: https://github.com/mzabriskie/axios
+[thunk]: https://github.com/gaearon/redux-thunk
+[sagas]: https://github.com/redux-saga/redux-saga
