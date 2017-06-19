@@ -32,28 +32,30 @@ class UsersIndex extends React.Component {
     const users = all || [];
     if (users.length > 0) {
       return (
-        <table className={s.table}>
-          <thead>
-            <tr>
-              <th>
-                Nombre
-              </th>
-              <th>
-                Correo
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              users.map(user => (
-                <tr key={user.id}>
-                  <td>{user.first_name}</td>
-                  <td>{user.email}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+        <div className="container">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Nombre
+                </th>
+                <th>
+                  Correo
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                users.map(user => (
+                  <tr key={user.id}>
+                    <td>{user.first_name}</td>
+                    <td>{user.email}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
       );
     }
     return (

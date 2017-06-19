@@ -52,7 +52,7 @@ class Layout extends React.Component {
   render() {
     return (
       <div>
-        <Helmet titleTemplate="%s | GreyTech Soluciones">
+        <Helmet titleTemplate="%s | React boilerplate">
           <title>Inicio</title>
         </Helmet>
         <Navbar user={this.props.session.user} logout={() => this.props.dispatch(logout())} />

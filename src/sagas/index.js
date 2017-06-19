@@ -1,10 +1,12 @@
 import { END } from 'redux-saga';
 import { take, fork } from 'redux-saga/effects';
+import contact from './contact';
 import users from './users';
 import registration from './registration';
 import session from './session';
 
 const allSagas = [
+  contact,
   users,
   registration,
   session,

@@ -1,0 +1,31 @@
+@import '../../../styles/variables.css';
+
+.hint {
+  font-size: 0.8em;
+  display: block;
+}
+
+.feedback {
+  composes: hint;
+}
+
+.form-group {
+  margin: 10px 0;
+  padding: 5px;
+
+  :--inputs {
+    margin-bottom: 5px;
+  }
+
+  &.has-error {
+    :--inputs {
+      border-color: red;
+    }
+
+    label,
+    .feedback {
+      color: red;
+    }
+  }
+}
+

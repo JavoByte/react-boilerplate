@@ -12,6 +12,7 @@ class FormGroup extends React.Component {
     children: PropTypes.node,
     name: PropTypes.string,
     label: PropTypes.string,
+    hint: PropTypes.string,
     type: PropTypes.string,
     errors: PropTypes.arrayOf(PropTypes.string),
     onChange: PropTypes.func,
@@ -22,6 +23,7 @@ class FormGroup extends React.Component {
     children: null,
     name: 'input',
     label: 'missing label',
+    hint: null,
     type: 'text',
     errors: [],
     onChange: null,
@@ -61,7 +63,7 @@ class FormGroup extends React.Component {
   }
 
   render() {
-    const { name, label, type } = this.props;
+    const { name, label, type, hint } = this.props;
     const { errors } = this.props;
     const hasError = errors.length > 0;
     if (this.props.children) {
@@ -76,6 +78,13 @@ class FormGroup extends React.Component {
       <div className={cx(s.formGroup, { [s.hasError]: hasError })} >
         <Label htmlFor={name}>{label}</Label>
         <Input {...inputProps} />
+        {
+          hint && errors.length === 0 ?
+            <span className={s.hint} key={'hint'}>
+              { hint }
+            </span>
+          : null
+        }
         {errors.map((error, i) => (
           // eslint-disable-next-line react/no-array-index-key
           <span className={s.feedback} key={i}>

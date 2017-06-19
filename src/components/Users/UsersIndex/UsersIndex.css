@@ -1,9 +1,0 @@
-.table {
-  td, th {
-    padding : 15px;
-  }
-
-  tr:nth-child(odd) {
-    background: #ededed;
-  }
-}

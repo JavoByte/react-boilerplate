@@ -135,7 +135,7 @@ const config = {
       },
       {
         test: /\.md$/,
-        loader: path.resolve(__dirname, './lib/markdown-loader.js'),
+        loader: 'raw-loader',
       },
       {
         test: /\.txt$/,

@@ -15,7 +15,7 @@ import s from './Footer.css';
 class Footer extends React.Component {
   render() {
     return (
-      <div className={s.root}>
+      <footer className={s.root}>
         <div className={s.container}>
           <span className={s.text}>© Your Company</span>
           <span className={s.spacer}>·</span>
@@ -28,7 +28,7 @@ class Footer extends React.Component {
           <span className={s.spacer}>·</span>
           <Link className={s.link} to="/not-found">Not Found</Link>
         </div>
-      </div>
+      </footer>
     );
   }
 }

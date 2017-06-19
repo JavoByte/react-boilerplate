@@ -4,6 +4,7 @@ export const API_PATHS = {
   login: 'login',
   logout: 'logout',
   register: 'register',
+  contact: 'contact',
   users: 'users',
 };
 
@@ -19,6 +20,14 @@ export const APPLICATION_CLEAR_MESSAGE = 'APPLICATION_CLEAR_MESSAGE';
 // This action must be used only server side.
 // Used when a redirect must be done (most likely after login)
 export const APPLICATION_SERVER_REDIRECT = 'APPLICATION_SERVER_REDIRECT';
+
+/**
+ * Contact section actions
+**/
+export const CONTACT_SEND = 'CONTACT_SEND';
+export const CONTACT_SUCCESS = 'CONTACT_SUCCESS';
+export const CONTACT_ERROR = 'CONTACT_ERROR';
+export const CONTACT_CLEAR = 'CONTACT_CLEAR';
 
 /**
  * Session actions

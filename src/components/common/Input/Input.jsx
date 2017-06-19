@@ -21,9 +21,16 @@ class Input extends React.Component {
   render() {
     const { name, type, onChange, onBlur } = this.props;
     const props = { name, type, onChange, onBlur };
-    return (
-      <input className={s.input} {...props} />
-    );
+    switch (type) {
+      case 'textarea':
+        return (
+          <textarea className={s.textarea} {...this.props} {...props} />
+        );
+      default:
+        return (
+          <input className={s.input} {...props} />
+        );
+    }
   }
 }
 

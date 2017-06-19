@@ -10,7 +10,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Map from '../../common/Map';
 import s from './Home.css';
 
 class Home extends React.Component {
@@ -23,10 +22,16 @@ class Home extends React.Component {
           <meta name="description" content="Welcome page" />
         </Helmet>
 
-        <div className={s.container}>
-          <h1>React.js Newsss</h1>
-          <Map />
-        </div>
+        <h1>
+          Application home page
+        </h1>
+
+        <p>
+          This is a react boilerplate. Feel free to edit this project to fit your needs.
+        </p>
+        <p>
+          Read the docs to learn how this project is built and technologies included
+        </p>
       </div>
     );
   }

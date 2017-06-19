@@ -19,15 +19,24 @@ class RegisterForm extends React.Component {
 
   static rules = {
     email: ['email'],
-    password: ['required'],
+    password: ['required', 'confirmed'],
+    first_name: ['required'],
+    last_name: ['required'],
   };
 
   static messages = {
     email: {
-      email: 'Por favor, escribe un correo válido',
+      email: 'Please, write a valid email',
+    },
+    first_name: {
+      required: 'This field is required',
+    },
+    last_name: {
+      required: 'This field is required',
     },
     password: {
-      required: 'Escribe tu contraseña',
+      required: 'This field is required',
+      confirmed: 'The passwords doesn\'t match',
     },
   };
 
@@ -87,10 +96,19 @@ class RegisterForm extends React.Component {
   validate(field = undefined) {
     let rules = this.constructor.rules;
     if (field) {
-      const fieldRules = rules[field] || [];
-      rules = {
-        [field]: fieldRules,
-      };
+      let fieldRules;
+      if (field.endsWith('_confirmation')) {
+        const originalField = field.substring(0, field.length - 13);
+        fieldRules = rules[originalField] || [];
+        rules = {
+          [originalField]: fieldRules,
+        };
+      } else {
+        fieldRules = rules[field] || [];
+        rules = {
+          [field]: fieldRules,
+        };
+      }
     }
     const newErrors = validator(this.state.input, rules, this.constructor.messages);
     const valid = Object.keys(newErrors).length === 0;
@@ -127,13 +145,15 @@ class RegisterForm extends React.Component {
 
   render() {
     return (
-      <div className="registerform">
+      <div className="form-container">
         <FormGroup onChange={this.handleOnChange} validate={this.validate} errors={this.state.errors.email} type="email" name="email" label="E-Mail" />
         <FormGroup onChange={this.handleOnChange} validate={this.validate} errors={this.state.errors.first_name} type="text" name="first_name" label="First name" />
         <FormGroup onChange={this.handleOnChange} validate={this.validate} errors={this.state.errors.last_name} type="text" name="last_name" label="Last name" />
         <FormGroup onChange={this.handleOnChange} validate={this.validate} errors={this.state.errors.password} type="password" name="password" label="Password" />
-        <FormGroup onChange={this.handleOnChange} validate={this.validate} errors={this.state.errors.password_confirmation} type="password" name="password_confirmation" label="Password" />
-        <Button onClick={this.register}>Submit</Button>
+        <FormGroup onChange={this.handleOnChange} validate={this.validate} errors={this.state.errors.password_confirmation} type="password" name="password_confirmation" label="Password confirmation" />
+        <div className="text-center">
+          <Button onClick={this.register}>Submit</Button>
+        </div>
       </div>
     );
   }

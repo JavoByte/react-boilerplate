@@ -50,7 +50,7 @@ if (__DEV__) {
 
 // Enable Hot Module Replacement (HMR)
 if (module.hot) {
-  module.hot.accept('./routes', () => {
+  module.hot.accept('./setup', () => {
     if (appInstance) {
       try {
         // Force-update the whole tree, including components that refuse to update
