@@ -1,10 +1,17 @@
 /* eslint-disable import/prefer-default-export */
 
 import {
+  APPLICATION_TOGGLE_SIDEMENU,
   APPLICATION_SEND_MESSAGE,
   APPLICATION_CLEAR_MESSAGE,
   APPLICATION_SERVER_REDIRECT,
 } from '../constants';
+
+export function toggleSidemenu() {
+  return {
+    type: APPLICATION_TOGGLE_SIDEMENU,
+  };
+}
 
 export function setServerRedirect(from) {
   return {

@@ -2,6 +2,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import _ from 'lodash';
 import {
   API_ERROR,
+  APPLICATION_TOGGLE_SIDEMENU,
   APPLICATION_SEND_MESSAGE,
   APPLICATION_CLEAR_MESSAGE,
   APPLICATION_SERVER_REDIRECT,
@@ -16,8 +17,15 @@ function randomString(length, chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDE
 
 function application(state = {
   messages: [],
+  sidemenuOpen: false,
 }, action) {
+  let newState;
   switch (action.type) {
+    case APPLICATION_TOGGLE_SIDEMENU:
+      return {
+        ...state,
+        sidemenuOpen: !state.sidemenuOpen,
+      };
     case APPLICATION_SERVER_REDIRECT:
       return {
         ...state,
@@ -58,19 +66,25 @@ function application(state = {
       if (state.serverRedirect) {
         if (state.serverRedirect.pathChanged) {
           // The default LOCATION_CHANGE already done. Clear server redirect
-          const { serverRedirect, ...newState } = state;
-          return newState;
+          const { serverRedirect, ...stateWithoutRedirect } = state;
+          newState = stateWithoutRedirect;
+        } else {
+          // Mark the state with LOCATION_CHANGE done
+          newState = {
+            ...state,
+            serverRedirect: {
+              ...state.serverRedirect,
+              pathChanged: true,
+            },
+          };
         }
-        // Mark the state with LOCATION_CHANGE done
-        return {
-          ...state,
-          serverRedirect: {
-            ...state.serverRedirect,
-            pathChanged: true,
-          },
-        };
+      } else {
+        newState = state;
       }
-      return state;
+      return {
+        ...newState,
+        sidemenuOpen: false,
+      };
     case API_ERROR:
       return {
         error: config.api.defaultErrorMessage,

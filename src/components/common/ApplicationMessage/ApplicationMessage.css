@@ -5,7 +5,7 @@
   color: white;
 }
 
-:global(#app) > div > nav + .alert {
+:global(#app-content) > .alert:first-child {
   margin-top: -20px;
 }
 
