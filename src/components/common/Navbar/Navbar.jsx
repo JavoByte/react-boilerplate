@@ -34,11 +34,17 @@ class Navbar extends React.Component {
     return (
       <nav className={s.root} role="navigation">
         <div className={s.container}>
-          <div className={cx(s.navbarBrand)}>
-            <a onClick={this.props.toggleSidemenu} role="button">
-              <img src={reactLogo} alt="React boilerplate" /> React boilerplate
-            </a>
-          </div>
+          <ul className={s.nav}>
+            <li>
+              <button onClick={this.props.toggleSidemenu} className={s.menuToggler}>
+                Menu
+              </button>
+            </li>
+          </ul>
+          <Link to="/" className={s.navbarBrand}>
+            <img src={reactLogo} alt="React boilerplate" />
+            React boilerplate
+          </Link>
           <ul className={cx(s.nav, s.navbarRight)}>
             <li>
               <Link to="/users">Users</Link>

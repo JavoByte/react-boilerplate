@@ -56,27 +56,29 @@
   }
 }
 
+.menu-toggler {
+  margin-left: -15px;
+}
+
 .navbar-brand {
-  float: left;
-  position: relative;
+  white-space: nowrap;
+  color: #ddd;
+  text-decoration: none;
+  padding: 15px;
+  line-height: 20px;
+  display: inline-block;
   margin: 0;
-  height: 50px;
 
-  a {
+  &:hover {
     color: white;
-    text-decoration: none;
-    padding: 15px;
-    white-space: nowrap;
-    margin: 0;
-    line-height: 20px;
-    display: block;
+  }
 
-    img {
-      max-height: 30px;
-      max-width: 30px;
-      vertical-align: middle;
-      margin-top: -5px;
-    }
+  img {
+    display: inline-block;
+    max-height: 30px;
+    max-width: 30px;
+    vertical-align: middle;
+    margin-top: -5px;
   }
 }
 
