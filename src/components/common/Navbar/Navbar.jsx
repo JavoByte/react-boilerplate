@@ -22,6 +22,7 @@ class Navbar extends React.Component {
       id: PropTypes.number,
     }),
     logout: PropTypes.func.isRequired,
+    toggleSidemenu: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -34,9 +35,9 @@ class Navbar extends React.Component {
       <nav className={s.root} role="navigation">
         <div className={s.container}>
           <div className={cx(s.navbarBrand)}>
-            <Link to="/">
+            <a onClick={this.props.toggleSidemenu} role="button">
               <img src={reactLogo} alt="React boilerplate" /> React boilerplate
-            </Link>
+            </a>
           </div>
           <ul className={cx(s.nav, s.navbarRight)}>
             <li>

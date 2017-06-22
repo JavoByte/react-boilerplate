@@ -10,7 +10,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { connect } from 'react-redux';
 import { logout } from '../../../actions/session';
@@ -20,6 +20,7 @@ import ApplicationMessage from '../ApplicationMessage';
 import AppErrorMessage from '../AppErrorMessage';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import Sidemenu from '../Sidemenu';
 
 function mapStateToProps(state) {
   return {
@@ -43,6 +44,20 @@ class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.clearMessage = this.clearMessage.bind(this);
+    this.toggleSidemenu = this.toggleSidemenu.bind(this);
+  }
+
+  state = {
+    sidemenuOpened: false,
+  };
+
+  toggleSidemenu(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.setState(prevState => ({
+      sidemenuOpened: !prevState.sidemenuOpened,
+    }));
   }
 
   clearMessage(messageId) {
@@ -55,21 +70,35 @@ class Layout extends React.Component {
         <Helmet titleTemplate="%s | React boilerplate">
           <title>Inicio</title>
         </Helmet>
-        <Navbar user={this.props.session.user} logout={() => this.props.dispatch(logout())} />
-        {
-          this.props.application.error ?
-            <AppErrorMessage message={this.props.application.error} />
-          : null
-        }
-        {
-          this.props.application.messages.map(message =>
-            <ApplicationMessage
-              key={message.identifier}
-              message={message}
-              clearMessage={() => this.clearMessage(message.identifier)}
-            />)
-        }
-        { React.cloneElement(this.props.children, { user: this.props.session.user })}
+        <Sidemenu isOpen={this.state.sidemenuOpened} toggleSidemenu={this.toggleSidemenu}>
+          <Link to="/">
+            Home
+          </Link>
+          <Link to="/users">
+            Users
+          </Link>
+        </Sidemenu>
+        <Navbar
+          toggleSidemenu={this.toggleSidemenu}
+          user={this.props.session.user}
+          logout={() => this.props.dispatch(logout())}
+        />
+        <div id="app-content">
+          {
+            this.props.application.error ?
+              <AppErrorMessage message={this.props.application.error} />
+            : null
+          }
+          {
+            this.props.application.messages.map(message =>
+              <ApplicationMessage
+                key={message.identifier}
+                message={message}
+                clearMessage={() => this.clearMessage(message.identifier)}
+              />)
+          }
+          { React.cloneElement(this.props.children, { user: this.props.session.user })}
+        </div>
         <Footer />
       </div>
     );

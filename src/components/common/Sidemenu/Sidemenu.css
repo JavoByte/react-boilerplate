@@ -1,0 +1,74 @@
+@import '../../../styles/variables';
+
+.sidemenu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 40rem;
+  background-color: var(--brand-primary);
+  z-index: 1000;
+  box-shadow: black 0 0 25px;
+  color: #eee;
+  transition: transform 300ms ease-in;
+  padding-top: 70px;
+
+  &.closed {
+    transform: translateX(-40rem);
+    box-shadow: none;
+  }
+}
+
+.content {
+  padding: 15px;
+  padding-top: 70px;
+}
+
+.links {
+  list-style: none;
+
+  > li {
+    margin: 0;
+
+    > a {
+      text-decoration: none;
+      line-height: 1.25em;
+      display: block;
+      padding: 15px;
+      color: #eee;
+
+      &:hover {
+        background-color: var(--brand-primary-darkened);
+      }
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  opacity: 0.75;
+  z-index: 500;
+}
+
+.overlay-enter {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.overlay-enter-active {
+  opacity: 0.75;
+}
+
+.overlay-leave {
+  opacity: 0.75;
+  transition: opacity 300ms ease-out;
+}
+
+.overlay-leave-active {
+  opacity: 0.01;
+}
