@@ -25,7 +25,6 @@ function validate(values, rules, messages = {}) {
         case RULE_CONFIRMED:
           valid = values[key] === values[`${key}_confirmation`];
           keyOverwrite = `${key}_confirmation`;
-          console.log(key, valid, keyOverwrite);
           break;
         default:
           valid = true;

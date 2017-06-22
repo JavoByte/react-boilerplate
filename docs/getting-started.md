@@ -167,20 +167,3 @@ to [Azure Web Apps](https://azure.microsoft.com/en-us/services/app-service/web/)
 or [Heroku](https://www.heroku.com/) this way. Both will execute `yarn install --production`
 upon receiving new files from you. Note, you should only deploy the contents
 of the `/build` folder to a remote server.
-
-
-### NOTES
-This is a fork from [React starter kit](https://github.com/kriasoft/react-starter-kit) Check that awesome project too.
-
-### TODOS
-
-- [*] Document routing
-- [*] Document sagas
-- [ ] Document forms and validation
-- [ ] Document in app messages
-- [ ] Document server side redirects
-- [ ] Refactor of forms and reuse code. Perhaps with a higher-order component
-- [ ] Check if docs of RSK still works with this fork
-- [ ] Document basic styling (milligram)
-- [ ] Test production build
-- [ ] Implement flow
