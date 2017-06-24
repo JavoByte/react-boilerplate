@@ -1,0 +1,106 @@
+@import '../../../styles/variables.css';
+
+.primary {
+  background-color: var(--brand-primary);
+  border-color: color(var(--brand-primary) shade(20%));
+
+  &.outline {
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    background-color: transparent;
+    font-weight: bold;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: color(var(--brand-primary) shade(15%));
+    box-shadow: #ccc 5px 5px 10px;
+  }
+}
+
+.success {
+  background-color: var(--color-success);
+  border-color: color(var(--color-success) shade(20%));
+
+  &.outline {
+    color: var(--color-success);
+    border-color: var(--color-success);
+    background-color: transparent;
+    font-weight: bold;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: color(var(--color-success) shade(15%));
+    box-shadow: #ccc 5px 5px 10px;
+  }
+}
+
+.warning {
+  background-color: var(--color-warning);
+  border-color: color(var(--color-warning) shade(20%));
+
+  &.outline {
+    color: var(--color-warning);
+    border-color: var(--color-warning);
+    background-color: transparent;
+    font-weight: bold;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: color(var(--color-warning) shade(15%));
+    box-shadow: #ccc 5px 5px 10px;
+  }
+}
+
+.info {
+  background-color: var(--color-info);
+  border-color: color(var(--color-info) shade(20%));
+
+  &.outline {
+    color: var(--color-info);
+    border-color: var(--color-info);
+    background-color: transparent;
+    font-weight: bold;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: color(var(--color-info) shade(15%));
+    box-shadow: #ccc 5px 5px 10px;
+  }
+}
+
+.danger {
+  background-color: var(--color-danger);
+  border-color: color(var(--color-danger) shade(20%));
+
+  &.outline {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+    background-color: transparent;
+    font-weight: bold;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: color(var(--color-danger) shade(15%));
+    box-shadow: #ccc 5px 5px 10px;
+  }
+}

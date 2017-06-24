@@ -11,6 +11,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Home.css';
+import Button from '../../common/Button';
 
 class Home extends React.Component {
 
@@ -32,6 +33,47 @@ class Home extends React.Component {
         <p>
           Read the docs to learn how this project is built and technologies included
         </p>
+        <h2>
+          Included components
+        </h2>
+        <h4>
+          Buttons
+        </h4>
+        <div className="text-center">
+          <Button color="primary">
+            Primary
+          </Button>
+          <Button color="success">
+            Success
+          </Button>
+          <Button color="warning">
+            Warning
+          </Button>
+          <Button color="danger">
+            Danger
+          </Button>
+          <Button color="info">
+            Info
+          </Button>
+        </div>
+        <hr />
+        <div className="text-center">
+          <Button color="primary" outline>
+            Primary
+          </Button>
+          <Button color="success" outline>
+            Success
+          </Button>
+          <Button color="warning" outline>
+            Warning
+          </Button>
+          <Button color="danger" outline>
+            Danger
+          </Button>
+          <Button color="info" outline>
+            Info
+          </Button>
+        </div>
       </div>
     );
   }
