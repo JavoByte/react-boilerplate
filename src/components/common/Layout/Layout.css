@@ -54,6 +54,12 @@ input[type='reset'],
 input[type='submit'] {
   background-color: var(--brand-primary);
   border-color: var(--brand-primary);
+  margin: 0 5px;
+  text-transform: none;
+  letter-spacing: inherit;
+  white-space: nowrap;
+  font-weight: normal;
+  font-size: 1.25rem;
 
   &:focus,
   &:hover {

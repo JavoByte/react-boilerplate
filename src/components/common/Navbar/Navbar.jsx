@@ -14,8 +14,6 @@ import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navbar.css';
 
-const reactLogo = 'https://upload.wikimedia.org/wikipedia/en/a/a7/React-icon.svg';
-
 class Navbar extends React.Component {
   static propTypes = {
     user: PropTypes.shape({
@@ -34,11 +32,17 @@ class Navbar extends React.Component {
     return (
       <nav className={s.root} role="navigation">
         <div className={s.container}>
-          <div className={cx(s.navbarBrand)}>
-            <a onClick={this.props.toggleSidemenu} role="button">
-              <img src={reactLogo} alt="React boilerplate" /> React boilerplate
-            </a>
-          </div>
+          <button onClick={this.props.toggleSidemenu} className={s.menuToggler}>
+            <div className={s.bars}>
+              <div className={s.bar} />
+              <div className={s.bar} />
+              <div className={s.bar} />
+            </div>
+          </button>
+          &nbsp;
+          <Link to="/" className={s.navbarBrand}>
+            <img src="/img/ReactBoilerplateLogo.png" alt="React boilerplate" />
+          </Link>
           <ul className={cx(s.nav, s.navbarRight)}>
             <li>
               <Link to="/users">Users</Link>

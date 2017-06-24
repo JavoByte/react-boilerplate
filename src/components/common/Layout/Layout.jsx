@@ -14,7 +14,7 @@ import { withRouter, Link } from 'react-router-dom';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { connect } from 'react-redux';
 import { logout } from '../../../actions/session';
-import { clearApplicationMessage } from '../../../actions/application';
+import { toggleSidemenu, clearApplicationMessage } from '../../../actions/application';
 import s from './Layout.css';
 import ApplicationMessage from '../ApplicationMessage';
 import AppErrorMessage from '../AppErrorMessage';
@@ -47,21 +47,12 @@ class Layout extends React.Component {
     this.toggleSidemenu = this.toggleSidemenu.bind(this);
   }
 
-  state = {
-    sidemenuOpened: false,
-  };
-
-  toggleSidemenu(event) {
-    if (event) {
-      event.preventDefault();
-    }
-    this.setState(prevState => ({
-      sidemenuOpened: !prevState.sidemenuOpened,
-    }));
-  }
-
   clearMessage(messageId) {
     this.props.dispatch(clearApplicationMessage(messageId));
+  }
+
+  toggleSidemenu() {
+    this.props.dispatch(toggleSidemenu());
   }
 
   render() {
@@ -70,7 +61,7 @@ class Layout extends React.Component {
         <Helmet titleTemplate="%s | React boilerplate">
           <title>Inicio</title>
         </Helmet>
-        <Sidemenu isOpen={this.state.sidemenuOpened} toggleSidemenu={this.toggleSidemenu}>
+        <Sidemenu isOpen={this.props.application.sidemenuOpen} toggleSidemenu={this.toggleSidemenu}>
           <Link to="/">
             Home
           </Link>
