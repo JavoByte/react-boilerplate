@@ -11,6 +11,7 @@ class Button extends React.Component {
     outline: PropTypes.bool,
     onClick: PropTypes.func,
     children: PropTypes.node.isRequired,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
@@ -18,6 +19,7 @@ class Button extends React.Component {
     onClick: null,
     outline: false,
     color: 'primary',
+    className: null,
   }
 
   render() {
@@ -34,6 +36,7 @@ class Button extends React.Component {
               [s.danger]: this.props.color === 'danger',
               [s.warning]: this.props.color === 'warning',
               [s.info]: this.props.color === 'info',
+              [this.props.className]: this.props.className,
             },
           )
         }
