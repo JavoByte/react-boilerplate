@@ -6,7 +6,7 @@ import s from './Button.css';
 
 class Button extends React.Component {
   static propTypes = {
-    type: PropTypes.string,
+    type: PropTypes.oneOf(['submit', 'button']),
     color: PropTypes.oneOf(['primary', 'success', 'info', 'danger', 'warning']),
     outline: PropTypes.bool,
     onClick: PropTypes.func,
