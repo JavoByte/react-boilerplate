@@ -5,6 +5,7 @@ import cx from 'classnames';
 import s from './FormGroup.css';
 import Label from '../Label';
 import Input from '../Input';
+import FormFeedbackContainer from '../FormFeedbackContainer';
 
 class FormGroup extends React.Component {
 
@@ -14,9 +15,6 @@ class FormGroup extends React.Component {
     label: PropTypes.string,
     hint: PropTypes.string,
     type: PropTypes.string,
-    errors: PropTypes.arrayOf(PropTypes.string),
-    onChange: PropTypes.func,
-    validate: PropTypes.func,
   };
 
   static defaultProps = {
@@ -25,46 +23,21 @@ class FormGroup extends React.Component {
     label: 'missing label',
     hint: null,
     type: 'text',
-    errors: [],
-    onChange: null,
-    validate: null,
   };
 
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.getValue = this.getValue.bind(this);
-  }
-
-  state = {
-    value: '',
-  }
-
-  getValue() {
-    return this.state.value;
-  }
-
-  handleChange(event) {
-    event.persist();
-    this.setState({
-      value: event.target.value,
-    }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(this.props.name, this.state.value);
-      }
-    });
-  }
-
-  handleBlur() {
-    if (this.props.validate) {
-      this.props.validate(this.props.name);
-    }
-  }
+  static contextTypes = {
+    validationErrors: PropTypes.any, // eslint-disable-line react/prop
+  };
 
   render() {
     const { name, label, type, hint } = this.props;
-    const { errors } = this.props;
+    const { validationErrors } = this.context;
+    let errors;
+    if (!validationErrors) {
+      errors = [];
+    } else {
+      errors = validationErrors[this.props.name] || [];
+    }
     const hasError = errors.length > 0;
     if (this.props.children) {
       return (
@@ -73,7 +46,7 @@ class FormGroup extends React.Component {
         </div>
       );
     }
-    const inputProps = { name, type, onChange: this.handleChange, onBlur: this.handleBlur };
+    const inputProps = { name, type };
     return (
       <div className={cx(s.formGroup, { [s.hasError]: hasError })} >
         <Label htmlFor={name}>{label}</Label>
@@ -85,12 +58,7 @@ class FormGroup extends React.Component {
             </span>
           : null
         }
-        {errors.map((error, i) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <span className={s.feedback} key={i}>
-            { error }
-          </span>
-        ))}
+        <FormFeedbackContainer forAttribute={this.props.name} />
       </div>
     );
   }

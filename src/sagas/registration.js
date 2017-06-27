@@ -3,6 +3,9 @@ import axios from 'axios';
 import {
   API_PATHS,
   API_ERROR,
+  API_ERROR_MESSAGE,
+  APPLICATION_SEND_MESSAGE,
+  MESSAGE_TYPE_ERROR,
   REGISTRATION_ATTEMPT,
   REGISTRATION_SUCCESS,
   REGISTRATION_ERROR,
@@ -19,17 +22,23 @@ function* register(action) {
       token: response.data.token,
     });
   } catch (error) {
-    if (error.response) {
-      yield put({
+    let actionToPut;
+    if (error.response && error.response.status === 422) {
+      actionToPut = {
         type: REGISTRATION_ERROR,
         errors: error.response.data,
-      });
+      };
     } else {
-      yield put({
-        type: API_ERROR,
-        error,
-      });
+      actionToPut = {
+        type: APPLICATION_SEND_MESSAGE,
+        message: {
+          identifier: API_ERROR,
+          message: API_ERROR_MESSAGE,
+          type: MESSAGE_TYPE_ERROR,
+        },
+      };
     }
+    yield put(actionToPut);
   }
 }
 

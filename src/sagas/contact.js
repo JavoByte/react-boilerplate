@@ -3,9 +3,12 @@ import axios from 'axios';
 import {
   API_PATHS,
   API_ERROR,
+  API_ERROR_MESSAGE,
+  APPLICATION_SEND_MESSAGE,
   CONTACT_SEND,
   CONTACT_SUCCESS,
   CONTACT_ERROR,
+  MESSAGE_TYPE_ERROR,
 } from '../constants';
 
 function* sendContactForm(action) {
@@ -18,17 +21,23 @@ function* sendContactForm(action) {
       message: response.data.message,
     });
   } catch (error) {
-    if (error.response.data) {
-      yield put({
+    let actionToPut;
+    if (error.response.status === 422 && error.response.data) {
+      actionToPut = {
         type: CONTACT_ERROR,
         errors: error.response.data,
-      });
+      };
     } else {
-      yield put({
-        type: API_ERROR,
-        error,
-      });
+      actionToPut = {
+        type: APPLICATION_SEND_MESSAGE,
+        message: {
+          identifier: API_ERROR,
+          message: API_ERROR_MESSAGE,
+          type: MESSAGE_TYPE_ERROR,
+        },
+      };
     }
+    yield put(actionToPut);
   }
 }
 

@@ -3,6 +3,9 @@ import axios from 'axios';
 import {
   API_PATHS,
   API_ERROR,
+  API_ERROR_MESSAGE,
+  MESSAGE_TYPE_ERROR,
+  APPLICATION_SEND_MESSAGE,
   SESSION_ATTEMPT,
   SESSION_ATTEMPT_ERROR,
   SESSION_LOGGED_IN,
@@ -20,18 +23,24 @@ function* attemptLogin(action) {
       user: response.data.user,
     });
   } catch (error) {
-    if (error.response && error.response.data) {
+    let actionToPut;
+    if (error.response && error.response.status === 422) {
       const { response } = error;
-      yield put({
+      actionToPut = {
         type: SESSION_ATTEMPT_ERROR,
         errors: response.data,
-      });
+      };
     } else {
-      yield put({
-        type: API_ERROR,
-        error,
-      });
+      actionToPut = {
+        type: APPLICATION_SEND_MESSAGE,
+        message: {
+          identifier: API_ERROR,
+          message: API_ERROR_MESSAGE,
+          type: MESSAGE_TYPE_ERROR,
+        },
+      };
     }
+    yield put(actionToPut);
   }
 }
 
@@ -44,8 +53,12 @@ function* logout() {
     });
   } catch (error) {
     yield put({
-      type: API_ERROR,
-      error,
+      type: APPLICATION_SEND_MESSAGE,
+      message: {
+        identifier: API_ERROR,
+        message: API_ERROR_MESSAGE,
+        type: MESSAGE_TYPE_ERROR,
+      },
     });
   }
 }
