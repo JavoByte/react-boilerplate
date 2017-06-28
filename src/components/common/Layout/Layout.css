@@ -116,6 +116,17 @@ input[type='submit'] {
   :global(.container) {
     max-width: 100%;
   }
+
+  :global(.row) {
+    flex-direction: row;
+    margin-left: -1rem;
+    width: calc(100% + 2rem);
+  }
+
+  :global(.row) :global(.column) {
+    margin-bottom: inherit;
+    padding: 0 1rem;
+  }
 }
 
 @media (--sm-viewport) {
