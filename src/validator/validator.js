@@ -1,4 +1,5 @@
 import validator from 'validator';
+import config from '../config';
 
 const RULE_REQUIRED = 'required';
 const RULE_EMAIL = 'email';
@@ -6,6 +7,7 @@ const RULE_CONFIRMED = 'confirmed';
 
 function validate(values, rules, validateOnly = null, messages = {}) {
   const result = {};
+  const defaultMessages = config.defaultValidationMessages;
   let rulesToValidate = rules;
   let validateConfirmed = true;
   if (validateOnly) {
@@ -51,7 +53,7 @@ function validate(values, rules, validateOnly = null, messages = {}) {
       const errors = result[keyOverwrite || key] || [];
       if (!valid) {
         const message = (messages[key] || {})[rule];
-        errors.push(message || rule);
+        errors.push(message || defaultMessages[rule] || rule);
       }
       if (errors.length > 0) {
         result[keyOverwrite || key] = errors;
