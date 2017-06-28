@@ -112,11 +112,7 @@ input[type='submit'] {
   margin-right: auto;
 }
 
-@media (--xs-viewport) {
-  :global(.container) {
-    max-width: 100%;
-  }
-
+@media (--sm-and-up) {
   :global(.row) {
     flex-direction: row;
     margin-left: -1rem;
@@ -126,6 +122,12 @@ input[type='submit'] {
   :global(.row) :global(.column) {
     margin-bottom: inherit;
     padding: 0 1rem;
+  }
+}
+
+@media (--xs-viewport) {
+  :global(.container) {
+    max-width: 100%;
   }
 }
 
