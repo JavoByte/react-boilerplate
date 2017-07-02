@@ -15,6 +15,12 @@ class FormGroup extends React.Component {
     label: PropTypes.string,
     hint: PropTypes.string,
     type: PropTypes.string,
+    options: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array,
+    ]),
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
   };
 
   static defaultProps = {
@@ -23,6 +29,9 @@ class FormGroup extends React.Component {
     label: 'missing label',
     hint: null,
     type: 'text',
+    options: [],
+    onChange: null,
+    onBlur: null,
   };
 
   static contextTypes = {
@@ -30,7 +39,7 @@ class FormGroup extends React.Component {
   };
 
   render() {
-    const { name, label, type, hint } = this.props;
+    const { name, label, type, hint, options, onChange, onBlur } = this.props;
     const { validationErrors } = this.context;
     let errors;
     if (!validationErrors) {
@@ -46,7 +55,7 @@ class FormGroup extends React.Component {
         </div>
       );
     }
-    const inputProps = { name, type };
+    const inputProps = { name, type, options, onChange, onBlur };
     return (
       <div className={cx(s.formGroup, { [s.hasError]: hasError })} >
         <Label htmlFor={name}>{label}</Label>

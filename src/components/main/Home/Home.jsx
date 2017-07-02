@@ -13,6 +13,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Home.css';
 import Button from '../../common/Button';
 import ButtonLink from '../../common/ButtonLink';
+import FormsExample from '../../common/FormsExample';
 
 class Home extends React.Component {
 
@@ -87,6 +88,8 @@ class Home extends React.Component {
             External link
           </ButtonLink>
         </div>
+
+        <FormsExample />
       </div>
     );
   }
