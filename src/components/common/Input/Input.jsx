@@ -14,6 +14,8 @@ class Input extends React.Component {
     ]),
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
+    readOnly: PropTypes.bool,
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -21,6 +23,8 @@ class Input extends React.Component {
     type: 'text',
     onChange: null,
     onBlur: null,
+    readOnly: false,
+    disabled: false,
     options: [],
   };
 
@@ -141,6 +145,7 @@ class Input extends React.Component {
             className={this.props.className}
             {...otherProps}
             {...props}
+            disabled={this.props.disabled || this.props.readOnly}
             value={this.state.value}
             onChange={this.handleChange}
             onBlur={this.handleOnBlur}

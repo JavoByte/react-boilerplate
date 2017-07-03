@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from '../Form';
 import FormGroup from '../FormGroup';
+import Button from '../Button';
 
 class FormsExample extends React.Component {
 
@@ -59,6 +60,18 @@ class FormsExample extends React.Component {
               ESP: 'Spain',
             }}
           />
+          <FormGroup
+            type="select"
+            name="readOnlySelect"
+            label="Select"
+            readOnly
+            options={{
+              MEX: 'Mexico',
+            }}
+          />
+          <Button type="submit" outline color="success">
+            Submit
+          </Button>
         </Form>
 
         <h5>
