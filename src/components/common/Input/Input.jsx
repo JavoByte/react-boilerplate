@@ -87,13 +87,14 @@ class Input extends React.Component {
       }
     } else {
       const { value } = this.state;
-      if (props.value && props.value !== value) {
+      if (props.value && this.props.value !== props.value && props.value !== value) {
+        const newValue = `${props.value}`;
         setTimeout(() => {
           this.setState({
-            value: props.value,
+            value: newValue,
           }, () => {
             if (this.context.registerValue) {
-              this.context.registerValue(this.props.name, props.value);
+              this.context.registerValue(this.props.name, newValue);
             }
           });
         });
