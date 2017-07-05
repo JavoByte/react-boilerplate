@@ -16,6 +16,7 @@ class Input extends React.Component {
     onBlur: PropTypes.func,
     readOnly: PropTypes.bool,
     disabled: PropTypes.bool,
+    value: PropTypes.string,
   };
 
   static defaultProps = {
@@ -26,6 +27,7 @@ class Input extends React.Component {
     readOnly: false,
     disabled: false,
     options: [],
+    value: '',
   };
 
   static contextTypes = {
@@ -82,6 +84,19 @@ class Input extends React.Component {
             });
           });
         }
+      }
+    } else {
+      const { value } = this.state;
+      if (props.value && props.value !== value) {
+        setTimeout(() => {
+          this.setState({
+            value: props.value,
+          }, () => {
+            if (this.context.registerValue) {
+              this.context.registerValue(this.props.name, props.value);
+            }
+          });
+        });
       }
     }
   }

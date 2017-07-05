@@ -14,6 +14,7 @@ class FormGroup extends React.Component {
     name: PropTypes.string,
     label: PropTypes.string,
     hint: PropTypes.string,
+    value: PropTypes.string,
     type: PropTypes.string,
     options: PropTypes.oneOfType([
       PropTypes.object,
@@ -29,6 +30,7 @@ class FormGroup extends React.Component {
     children: null,
     name: 'input',
     label: 'missing label',
+    value: '',
     hint: null,
     type: 'text',
     readOnly: false,
@@ -46,6 +48,7 @@ class FormGroup extends React.Component {
     const {
       name,
       label,
+      value,
       type,
       hint,
       options,
@@ -72,6 +75,7 @@ class FormGroup extends React.Component {
     const inputProps = {
       name,
       type,
+      value,
       options,
       onChange,
       onBlur,
