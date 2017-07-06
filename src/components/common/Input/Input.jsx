@@ -46,10 +46,23 @@ class Input extends React.Component {
   };
 
   componentWillMount() {
+    let value;
     if (this.props.type === 'select') {
-      const value = (Array.isArray(this.props.options) ?
+      value = (Array.isArray(this.props.options) ?
         this.props.options[0] :
         Object.keys(this.props.options)[0]) || '';
+      this.setState({
+        value,
+      }, () => {
+        if (this.context.registerValue) {
+          this.context.registerValue(this.props.name, value);
+        }
+      });
+    } else {
+      value = this.props.value;
+    }
+
+    if (value) {
       this.setState({
         value,
       }, () => {
@@ -87,7 +100,7 @@ class Input extends React.Component {
       }
     } else {
       const { value } = this.state;
-      if (props.value && this.props.value !== props.value && props.value !== value) {
+      if (props.value && ((props.value !== value && !value) || this.props.value !== props.value)) {
         const newValue = `${props.value}`;
         setTimeout(() => {
           this.setState({
