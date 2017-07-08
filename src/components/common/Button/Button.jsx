@@ -6,6 +6,7 @@ import s from './Button.css';
 
 class Button extends React.Component {
   static propTypes = {
+    disabled: PropTypes.bool,
     type: PropTypes.oneOf(['submit', 'button']),
     color: PropTypes.oneOf(['primary', 'success', 'info', 'danger', 'warning']),
     outline: PropTypes.bool,
@@ -15,6 +16,7 @@ class Button extends React.Component {
   };
 
   static defaultProps = {
+    disabled: null,
     type: 'button',
     onClick: null,
     outline: false,
@@ -41,6 +43,7 @@ class Button extends React.Component {
           )
         }
         onClick={this.props.onClick}
+        disabled={this.props.disabled}
       >
         {this.props.children}
       </button>
