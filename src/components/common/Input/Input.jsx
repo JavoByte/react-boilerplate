@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import _ from 'lodash';
+import cx from 'classnames';
+import s from './Input.css';
 
 class Input extends React.Component {
 
@@ -42,7 +45,7 @@ class Input extends React.Component {
   }
 
   state = {
-    value: '',
+    value: undefined,
   };
 
   componentWillMount() {
@@ -100,7 +103,10 @@ class Input extends React.Component {
       }
     } else {
       const { value } = this.state;
-      if (props.value && ((props.value !== value && !value) || this.props.value !== props.value)) {
+      if (props.value &&
+        (
+          (props.value !== value && value === undefined)
+          || this.props.value !== props.value)) {
         const newValue = `${props.value}`;
         setTimeout(() => {
           this.setState({
@@ -160,9 +166,9 @@ class Input extends React.Component {
       case 'textarea':
         return (
           <textarea
-            className={this.props.className}
             {...otherProps}
             {...props}
+            className={cx(this.props.className, s.root)}
             value={this.state.value}
             onChange={this.handleChange}
             onBlur={this.handleOnBlur}
@@ -171,9 +177,9 @@ class Input extends React.Component {
       case 'select':
         return (
           <select
-            className={this.props.className}
             {...otherProps}
             {...props}
+            className={cx(this.props.className, s.root)}
             disabled={this.props.disabled || this.props.readOnly}
             value={this.state.value}
             onChange={this.handleChange}
@@ -193,9 +199,9 @@ class Input extends React.Component {
       default:
         return (
           <input
-            className={this.props.className}
             {...otherProps}
             {...props}
+            className={cx(s.root, this.props.className)}
             value={this.state.value}
             onChange={this.handleChange}
             onBlur={this.handleOnBlur}
@@ -205,4 +211,4 @@ class Input extends React.Component {
   }
 }
 
-export default Input;
+export default withStyles(s)(Input);
