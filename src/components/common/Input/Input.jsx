@@ -77,22 +77,22 @@ class Input extends React.Component {
     if (this.props.type === 'select') {
       if (!_.isEqual(this.props.options, props.options)) {
         // options have changed
-        let newValue = this.state.value;
-        const { value } = this.state;
+        const prevValue = this.state.value;
+        let value = this.state.value || props.value;
         if (Array.isArray(props.options) && props.options.indexOf(value) === -1) {
           // new props is an array and the value we had is not part of the array
-          newValue = props.options[0];
-        } else if (!Array.isArray(props.options) && !props.options[newValue]) {
+          value = props.options[0];
+        } else if (!Array.isArray(props.options) && !props.options[value]) {
           // new props is not an array and the value we had is not in the new options object
-          newValue = Object.keys(props.options)[0];
+          value = Object.keys(props.options)[0];
         }
-        if (newValue !== value) {
+        if (prevValue !== value) {
           setTimeout(() => {
             this.setState({
-              value: newValue,
+              value,
             }, () => {
               if (this.context.registerValue) {
-                this.context.registerValue(this.props.name, newValue);
+                this.context.registerValue(this.props.name, value);
               }
             });
           });
