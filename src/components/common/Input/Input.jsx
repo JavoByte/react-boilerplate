@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import _ from 'lodash';
-import cx from 'classnames';
-import s from './Input.css';
 
 class Input extends React.Component {
 
@@ -168,7 +165,7 @@ class Input extends React.Component {
           <textarea
             {...otherProps}
             {...props}
-            className={cx(this.props.className, s.root)}
+            className={this.props.className}
             value={this.state.value}
             onChange={this.handleChange}
             onBlur={this.handleOnBlur}
@@ -179,7 +176,7 @@ class Input extends React.Component {
           <select
             {...otherProps}
             {...props}
-            className={cx(this.props.className, s.root)}
+            className={this.props.className}
             disabled={this.props.disabled || this.props.readOnly}
             value={this.state.value}
             onChange={this.handleChange}
@@ -201,7 +198,7 @@ class Input extends React.Component {
           <input
             {...otherProps}
             {...props}
-            className={cx(s.root, this.props.className)}
+            className={this.props.className}
             value={this.state.value}
             onChange={this.handleChange}
             onBlur={this.handleOnBlur}
@@ -211,4 +208,4 @@ class Input extends React.Component {
   }
 }
 
-export default withStyles(s)(Input);
+export default Input;
