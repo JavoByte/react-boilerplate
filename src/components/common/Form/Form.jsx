@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import validator from '../../../validator';
 
 
@@ -124,7 +125,7 @@ class Form extends React.Component {
 
   render() {
     return (
-      <form className={this.props.className} onSubmit={this.submit}>
+      <form className={cx('pure-form', this.props.className)} onSubmit={this.submit}>
         { this.props.children }
       </form>
     );

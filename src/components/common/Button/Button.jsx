@@ -30,6 +30,7 @@ class Button extends React.Component {
         type={this.props.type}
         className={
           cx(
+            'pure-button',
             'button',
             {
               [s.outline]: this.props.outline,

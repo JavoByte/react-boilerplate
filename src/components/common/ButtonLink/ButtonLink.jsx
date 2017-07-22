@@ -35,6 +35,7 @@ class ButtonLink extends React.Component {
     const external = to.match(/^(https?:)?\/\//);
 
     const finalClassName = cx(
+      'pure-button',
       'button',
       {
         [s.outline]: outline,

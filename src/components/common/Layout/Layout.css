@@ -1,7 +1,5 @@
 @import '../../../styles/variables.css';
 
-@global-import 'milligram/dist/milligram.min.css';
-
 html,
 body {
   height: 100%;
@@ -42,12 +40,26 @@ input[type='text'],
 input[type='url'],
 textarea,
 select {
+  appearance: none;
+  background-color: transparent;
+  border: 1px solid #cdcdcd;
+  border-radius: 0.4rem;
+  box-shadow: none;
+  box-sizing: inherit; /* Forced to replace inherit values of the normalize.css */
+  height: 2.5rem;
+  margin: 0;
+  padding: 0.6rem 1rem; /*  The .6rem vertically centers text on FF, ignored by Webkit */
+  width: 100%;
+
   &:focus {
     border-color: var(--brand-primary);
   }
 }
 
 select {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="%23d1d1d1" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>') center right no-repeat;
+  padding-right: 3rem;
+
   &:focus {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="var(--brand-primary)" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>');
   }
@@ -58,19 +70,17 @@ select {
   }
 }
 
-:global(.button),
-button,
-input[type='button'],
-input[type='reset'],
-input[type='submit'] {
+:global(.button) {
   background-color: var(--brand-primary);
-  border-color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  color: #eee;
   margin: 0 5px;
   text-transform: none;
   letter-spacing: inherit;
   white-space: nowrap;
   font-weight: normal;
-  font-size: 1.25rem;
+  font-size: 1rem;
+  border-radius: 5px;
 
   &:focus,
   &:hover {

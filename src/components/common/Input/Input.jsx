@@ -166,7 +166,7 @@ class Input extends React.Component {
             {...otherProps}
             {...props}
             className={this.props.className}
-            value={this.state.value}
+            value={this.state.value || ''}
             onChange={this.handleChange}
             onBlur={this.handleOnBlur}
           />
@@ -178,7 +178,7 @@ class Input extends React.Component {
             {...props}
             className={this.props.className}
             disabled={this.props.disabled || this.props.readOnly}
-            value={this.state.value}
+            value={this.state.value || ''}
             onChange={this.handleChange}
             onBlur={this.handleOnBlur}
           >
@@ -199,7 +199,7 @@ class Input extends React.Component {
             {...otherProps}
             {...props}
             className={this.props.className}
-            value={this.state.value}
+            value={this.state.value || ''}
             onChange={this.handleChange}
             onBlur={this.handleOnBlur}
           />
