@@ -9,8 +9,10 @@ import {
 
 const errorMiddleware = () => next => (action) => {
   if (action.type === ACTION_API_ERROR && action.handledType) {
+    console.warn('error middleware', action);
     const { error } = action;
     const { response } = error;
+
     if (response && response.status) {
       switch (response.status) {
         case HTTP_STATUS_UNAUTHENTICATED:
@@ -35,7 +37,7 @@ const errorMiddleware = () => next => (action) => {
               message: {
                 type: 'warning',
                 identifier: 'unauthorized',
-                message: 'Please, log in',
+                message: 'Unauthorized',
               },
             });
           });
@@ -56,8 +58,12 @@ const errorMiddleware = () => next => (action) => {
       }
     } else {
       return next({
-        action: ACTION_API_ERROR,
-        error,
+        type: ACTION_APPLICATION_SEND_MESSAGE,
+        message: {
+          type: 'error',
+          identifier: ACTION_API_ERROR,
+          message: error.message,
+        },
       });
     }
   } else {

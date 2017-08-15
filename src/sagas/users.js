@@ -1,13 +1,11 @@
 import { call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import {
+  ACTION_API_ERROR,
   API_PATHS,
-  API_ERROR,
-  API_ERROR_MESSAGE,
-  MESSAGE_TYPE_ERROR,
-  APPLICATION_SEND_MESSAGE,
   USERS_LOAD,
   USERS_LOADED,
+  USERS_LOAD_ERROR,
 } from '../constants';
 
 
@@ -20,12 +18,9 @@ function* getUsers() {
     });
   } catch (error) {
     yield put({
-      type: APPLICATION_SEND_MESSAGE,
-      message: {
-        identifier: API_ERROR,
-        message: API_ERROR_MESSAGE,
-        type: MESSAGE_TYPE_ERROR,
-      },
+      type: ACTION_API_ERROR,
+      handledType: USERS_LOAD_ERROR,
+      error,
     });
   }
 }
