@@ -17,7 +17,6 @@ import { logout } from '../../../actions/session';
 import { toggleSidemenu, clearApplicationMessage } from '../../../actions/application';
 import s from './Layout.css';
 import ApplicationMessage from '../ApplicationMessage';
-import AppErrorMessage from '../AppErrorMessage';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import Sidemenu from '../Sidemenu';
@@ -75,11 +74,6 @@ class Layout extends React.Component {
           logout={() => this.props.dispatch(logout())}
         />
         <div id="app-content">
-          {
-            this.props.application.error ?
-              <AppErrorMessage message={this.props.application.error} />
-            : null
-          }
           {
             this.props.application.messages.map(message =>
               <ApplicationMessage

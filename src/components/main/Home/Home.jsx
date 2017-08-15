@@ -12,6 +12,8 @@ import Helmet from 'react-helmet';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Home.css';
 import Button from '../../common/Button';
+import ButtonLink from '../../common/ButtonLink';
+import FormsExample from '../../common/FormsExample';
 
 class Home extends React.Component {
 
@@ -74,6 +76,20 @@ class Home extends React.Component {
             Info
           </Button>
         </div>
+
+        <h4>
+          Button links
+        </h4>
+        <div className="text-center">
+          <ButtonLink to="/login">
+            Login button
+          </ButtonLink>
+          <ButtonLink to="https://www.facebook.com/" color="info" outline>
+            External link
+          </ButtonLink>
+        </div>
+
+        <FormsExample />
       </div>
     );
   }

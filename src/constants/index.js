@@ -10,6 +10,11 @@ export const API_PATHS = {
 
 export const SET_RUNTIME_VARIABLE = 'SET_RUNTIME_VARIABLE';
 export const API_ERROR = 'API_ERROR';
+export const API_ERROR_MESSAGE = 'Internal server error';
+export const MESSAGE_TYPE_SUCCESS = 'success';
+export const MESSAGE_TYPE_WARNING = 'warning';
+export const MESSAGE_TYPE_INFO = 'info';
+export const MESSAGE_TYPE_ERROR = 'error';
 
 /**
  * Application actions

@@ -40,6 +40,7 @@ export default (content, preloadedState, styles = [], scripts = []) => {
         ${helmet.meta.toString()}
         ${helmet.link.toString()}
         <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" />
         ${styleTags}
       </head>
       <body>

@@ -32,6 +32,7 @@
   /**
    * Custom media definitions
   * ======================================================================== */
+  @custom-media --sm-and-up (width >= 768px);
   @custom-media --xs-viewport (width < 768px);
   @custom-media --sm-viewport (width >= 768px) and (width < 992px);
   @custom-media --md-viewport (width >= 992px) and (width < 1200px);

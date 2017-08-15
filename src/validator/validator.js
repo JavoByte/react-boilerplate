@@ -1,17 +1,34 @@
 import validator from 'validator';
+import config from '../config';
 
 const RULE_REQUIRED = 'required';
 const RULE_EMAIL = 'email';
 const RULE_CONFIRMED = 'confirmed';
 
-function validate(values, rules, messages = {}) {
+function validate(values, rules, validateOnly = null, messages = {}) {
   const result = {};
-  const keys = Object.keys(rules);
+  const defaultMessages = config.defaultValidationMessages;
+  let rulesToValidate = rules;
+  let validateConfirmed = true;
+  if (validateOnly) {
+    let field = validateOnly;
+    if (validateOnly.endsWith('confirmation')) {
+      field = field.substring(0, field.length - 13);
+    } else {
+      validateConfirmed = false;
+    }
+    const fieldRules = rules[field] || [];
+    rulesToValidate = {
+      [field]: fieldRules,
+    };
+  }
+
+  const keys = Object.keys(rulesToValidate);
   for (let j = 0; j < keys.length; j++) {
     const key = keys[j];
     let keyOverwrite = null;
     const value = values[key] || '';
-    const keyRules = rules[key];
+    const keyRules = rulesToValidate[key];
     for (let i = 0; i < keyRules.length; i++) {
       const rule = keyRules[i];
       let valid;
@@ -23,16 +40,20 @@ function validate(values, rules, messages = {}) {
           valid = validator.isEmail(value);
           break;
         case RULE_CONFIRMED:
-          valid = values[key] === values[`${key}_confirmation`];
-          keyOverwrite = `${key}_confirmation`;
+          if (validateConfirmed) {
+            valid = values[key] === values[`${key}_confirmation`];
+            keyOverwrite = `${key}_confirmation`;
+          } else {
+            valid = true;
+          }
           break;
         default:
           valid = true;
       }
       const errors = result[keyOverwrite || key] || [];
       if (!valid) {
-        const message = (messages[keyOverwrite || key] || {})[rule];
-        errors.push(message || rule);
+        const message = (messages[key] || {})[rule];
+        errors.push(message || defaultMessages[rule] || rule);
       }
       if (errors.length > 0) {
         result[keyOverwrite || key] = errors;

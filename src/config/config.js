@@ -10,5 +10,10 @@ export default {
     googleTrackingId: process.env.GOOGLE_TRACKING_ID, // UA-XXXXX-X
   },
 
+  defaultValidationMessages: {
+    required: 'This field is required',
+    email: 'Please type a valid email',
+    confirmed: 'This field must be confirmed',
+  },
 };
 

@@ -1,13 +1,11 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
 import _ from 'lodash';
 import {
-  API_ERROR,
   APPLICATION_TOGGLE_SIDEMENU,
   APPLICATION_SEND_MESSAGE,
   APPLICATION_CLEAR_MESSAGE,
   APPLICATION_SERVER_REDIRECT,
 } from '../constants';
-import config from '../config';
 
 function randomString(length, chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
   let result = '';
@@ -84,10 +82,6 @@ function application(state = {
       return {
         ...newState,
         sidemenuOpen: false,
-      };
-    case API_ERROR:
-      return {
-        error: config.api.defaultErrorMessage,
       };
     default:
       return state;

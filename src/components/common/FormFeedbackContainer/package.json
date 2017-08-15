@@ -1,0 +1,6 @@
+{
+  "name": "FormFeedbackContainer",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FormFeedbackContainer.jsx"
+}

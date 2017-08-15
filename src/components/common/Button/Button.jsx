@@ -6,18 +6,22 @@ import s from './Button.css';
 
 class Button extends React.Component {
   static propTypes = {
-    type: PropTypes.string,
+    disabled: PropTypes.bool,
+    type: PropTypes.oneOf(['submit', 'button']),
     color: PropTypes.oneOf(['primary', 'success', 'info', 'danger', 'warning']),
     outline: PropTypes.bool,
     onClick: PropTypes.func,
     children: PropTypes.node.isRequired,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
+    disabled: null,
     type: 'button',
     onClick: null,
     outline: false,
     color: 'primary',
+    className: null,
   }
 
   render() {
@@ -26,6 +30,7 @@ class Button extends React.Component {
         type={this.props.type}
         className={
           cx(
+            'pure-button',
             'button',
             {
               [s.outline]: this.props.outline,
@@ -34,10 +39,12 @@ class Button extends React.Component {
               [s.danger]: this.props.color === 'danger',
               [s.warning]: this.props.color === 'warning',
               [s.info]: this.props.color === 'info',
+              [this.props.className]: this.props.className,
             },
           )
         }
         onClick={this.props.onClick}
+        disabled={this.props.disabled}
       >
         {this.props.children}
       </button>
