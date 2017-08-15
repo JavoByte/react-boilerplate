@@ -2,16 +2,18 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
+import apiErrorMiddleware from './apiErrorMiddleware';
 import rootReducer from '../reducers';
 import createHelpers from './createHelpers';
 import createLogger from './logger';
 import sagas from '../sagas';
 
-export default function configureStore(initialState, helpersConfig = {}) {
-  const helpers = createHelpers(helpersConfig);
+export default function configureStore(initialState, config = {}) {
+  const helpers = createHelpers(config);
   const sagaMiddleware = createSagaMiddleware();
-  const middleware = [sagaMiddleware, thunk.withExtraArgument(helpers)];
-  if (helpersConfig.history) {
+  const middleware = [sagaMiddleware, apiErrorMiddleware, thunk.withExtraArgument(helpers)];
+  if (config.history) {
+    const { history } = config;
     middleware.push(routerMiddleware(history));
   }
   let enhancer;

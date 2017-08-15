@@ -27,6 +27,15 @@ export const APPLICATION_CLEAR_MESSAGE = 'APPLICATION_CLEAR_MESSAGE';
 // Used when a redirect must be done (most likely after login)
 export const APPLICATION_SERVER_REDIRECT = 'APPLICATION_SERVER_REDIRECT';
 
+export const HTTP_STATUS_UNAUTHENTICATED = 401;
+export const HTTP_STATUS_FORBIDDEN = 403;
+export const HTTP_STATUS_UNPROCESSABLE_ENTITY = 422;
+
+/** Application actions **/
+export const ACTION_API_ERROR = 'API_ERROR';
+export const ACTION_APPLICATION_SEND_MESSAGE = 'APPLICATION_SEND_MESSAGE';
+export const ACTION_APPLICATION_CLEAR_MESSAGE = 'APPLICATION_CLEAR_MESSAGE';
+
 /**
  * Contact section actions
 **/
